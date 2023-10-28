@@ -1,0 +1,112 @@
+﻿@{
+    Layout = "~/Views/Shared/_AdminBearlingoLayout.cshtml";
+    var dataNP = ViewBag.listNP;
+}
+<script src="//cdn.ckeditor.com/4.15.0/standard/ckeditor.js"></script>
+<div class="app-title">
+    <ul class="app-breadcrumb breadcrumb">
+        <li class="breadcrumb-item">Danh sách Từ Vựng</li>
+        <li class="breadcrumb-item"><a href="#">Thêm Từ Vựng</a></li>
+    </ul>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="tile">
+            <h3 class="tile-title">Tạo mới Từ Vựng</h3>
+            <div class="row element-button">
+                <div class="col-sm-2">
+                    <a class="btn btn-add btn-sm" data-toggle="modal" data-target="#exampleModalCenter">
+                        <i class="fas fa-folder-plus"></i> Thêm Chủ Đề Từ Vựng
+                    </a>
+                </div>
+            </div>
+            <div class="tile-body">
+                <form class="row" asp-action="AddTuVung" asp-controller="Vocabulary" method="post">
+                    <div class="form-group col-md-4">
+                        <label class="control-label">Từ vựng</label>
+                        <input class="form-control" type="text" name="tuVung1" required>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label class="control-label">Phát âm</label>
+                        <input class="form-control" type="text" name="phatAm" required>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label class="control-label">Loại Từ</label>
+                        <input class="form-control" type="text" name="loaiTu" required>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label class="control-label">Nghĩa Từ Vựng</label>
+                        <input class="form-control" type="text" name="nghiaTuVung" required>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label class="control-label">Chủ đề Từ Vựng</label>
+                        <select class="form-control" id="exampleSelect3" name="idChuDeTuVung">
+                            @foreach (var item in dataNP)
+                            {
+                                <option value="@item.IdchuDeNguPhap">@item.TenNguPhap</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label class="control-label">Ví Dụ Từ Vựng</label>
+                        <textarea class="form-control" name="viDuTuVung" id="viDuTuVung" required></textarea>
+                        <script>CKEDITOR.replace('vidu');</script>
+                    </div>
+                    <button class="btn btn-save" type="submit">Lưu lại</button>
+                    <a class="btn btn-cancel" asp-action="getTuVungs" asp-controller="Dashboard">Hủy bỏ</a>
+                </form>
+            </div>
+
+        </div>
+        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+             data-backdrop="static" data-keyboard="false">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+
+                    <div class="modal-body">
+                        <form asp-action="AddChuDe" asp-controller="Vocabulary">
+                            <div class="row">
+                                <div class="form-group  col-md-12">
+                                    <span class="thong-tin-thanh-toan">
+                                        <h5>Tạo Chủ Đề Từ Vựng</h5>
+                                    </span>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <label class="control-label">Nhập tên Chủ Đề</label>
+                                    <input class="form-control" name="chuDe" type="text" required>
+                                </div>
+                            </div>
+                            <BR>
+                            <button class="btn btn-save" type="submit">Lưu lại</button>
+                            <a class="btn btn-cancel" data-dismiss="modal" href="#">Hủy bỏ</a>
+                            <BR>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            const inpFile = document.getElementById("inpFile");
+            const loadFile = document.getElementById("loadFile");
+            const previewContainer = document.getElementById("imagePreview");
+            const previewContainer = document.getElementById("imagePreview");
+            const previewImage = previewContainer.querySelector(".image-preview__image");
+            const previewDefaultText = previewContainer.querySelector(".image-preview__default-text");
+            inpFile.addEventListener("change", function () {
+                const file = this.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    previewDefaultText.style.display = "none";
+                    previewImage.style.display = "block";
+                    reader.addEventListener("load", function () {
+                        previewImage.setAttribute("src", this.result);
+                    });
+                    reader.readAsDataURL(file);
+                }
+            });
+
+        </script>
+    </div>
+</div>

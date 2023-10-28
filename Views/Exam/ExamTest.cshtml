@@ -1,0 +1,388 @@
+﻿@using BEARLINGO.DTO;
+@{
+    Layout = null;
+    var listeningPart2 = ViewBag.dethiPart2 as List<QuestionListeningDTO>;
+    var listeningPart3 = ViewBag.dethiPart3 as List<QuestionListeningDTO>;
+    var listeningPart4 = ViewBag.dethiPart4 as List<QuestionListeningDTO>;
+}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Bearlingo</title>
+    <!-- CSS FILES -->
+    <link rel="preconnect" @Url.Content("https://fonts.googleapis.com")>
+    <link rel="stylesheet" @Url.Content("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css")>
+    <link rel="preconnect" @Url.Content("https://fonts.gstatic.com") crossorigin>
+    <link rel="stylesheet" @Url.Content("https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Open+Sans&display=swap")>
+    <link href="~/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/css/bootstrap-icons.css" rel="stylesheet">
+    <link href="~/css/templatemo-topic-listing.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        body {
+            overflow-x: hidden;
+        }
+
+        #contentTest {
+            text-align: center; /* Căn giữa nội dung theo chiều ngang */
+            padding: 20px; /* Khoảng cách bên trong div */
+            margin: 20px;
+        }
+
+
+
+        .card {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+            text-align: left;
+            height: auto;
+        }
+
+        .card-left {
+            margin: 0 0 0 2vw;
+        }
+
+        .card-right {
+            margin-right: 2vw;
+            width: 43vw;
+        }
+
+    </style>
+</head>
+
+<body id="top">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item" style="margin-top: 10px; margin-right: 20px">
+                <button id="clock-button" class="btn btn-info">
+                    <i class="fa fa-clock-o mr-2"></i>
+                    <span id="clock">02:00:00</span>
+                </button>
+            </li>
+            <li class="nav-item" style="margin-top: 10px">
+                <button id="submitBtn" class="btn btn-danger">Submit</button>
+            </li>
+        </ul>
+    </nav>
+    <div id="contentTest" style="margin-top: 80px">
+    </div>
+    <div style="margin-top: 30px">
+        <div class="row card-container justify-content-between" id="ansques">
+            <div class="card col-6 card-left" id="question">
+            </div>
+            <div class="card card-right" id="answer" style="position:relative">
+            </div>
+        </div>
+    </div>
+
+
+    <!-- JAVASCRIPT FILES -->
+    <script src="~/js/jquery.min.js"></script>
+    <script src="~/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/jquery.sticky.js"></script>
+    <script src="~/js/click-scroll.js"></script>
+    <script src="~/js/custom.js"></script>
+    <script>
+        const part1 = `
+                       <div>
+                       <h3>Part 1</h3>
+                       <p>
+                       Directions: For each question in this part, you will hear four statements about a picture.
+                       When you heart the statements, you must select the one statement that best describes what you see in the picture.
+                       Then find the number of the question on your screen and mark your answer.
+                       The statements will be spoken only one time.
+                       </p>
+                       </div>
+                       `;
+        const part2 = `
+                       <div>
+                       <h3>Part 2</h3>
+                       <p>
+                       Directions: You will hear a question or statement and three responses spoken in English.
+                       They will not be printed in your screen and will be spoken only one time.
+                       Select the best response to the question or statement.
+                       </p>
+                       </div>
+                       `;
+        const part3 = `
+                               <div>
+                               <h3>Part 3</h3>
+                               <p>
+                                       Directions: You will hear some conversations between two or more people.
+                You will be asked to answer three questions about what the speakers say in each conversation.
+                The conversations will be spoken only one time.
+                               </p>
+                               </div>
+                               `;
+        const part4 = `
+                               <div>
+                               <h3>Part 4</h3>
+                               <p>
+                                              Directions: You will hear some talks given by a single speaker.
+        You will be asked to answer three questions about what the speaker says in each talk.
+        The talks will be spoken only one time.
+                               </p>
+                               </div>
+                               `;
+        const part5 = `
+                               <div>
+                               <h3>Part 5</h3>
+                               <p>
+                                       Directions: A word or phrase is missing in each of the sentences below.
+        Four answer choices are given below each sentence.
+        Select the best answer to complete the sentence.
+        Then mark the letter (A), (B), (C), or (D) on your answer sheet.
+                                       </p>
+                               </div>
+                               `;
+        const part6 = `
+                                       <div>
+                                       <h3>Part 6</h3>
+                                       <p>
+                                                   Directions: Read the texts that follow. A word, phrase, or sentence is missing in parts of each text.
+        Four answer choices for each question are given below the text.
+        Select the best answer to complete the text. Then mark the letter (A), (B), (C), or (D) on your answer sheet.
+                                       </p>
+                                       </div>
+                                       `;
+        const part7 = `
+                                       <div>
+                                       <h3>Part 7</h3>
+                                       <p>
+                                                      Directions: In this part you will read a selection of texts, such as magazine and newspaper articles,
+        e-mails, and instant messages. Each text or set of texts is followed by several questions.
+        Select the best answer for each question and mark the letter (A), (B), (C), or (D) on your answer sheet.
+                                               </p>
+                                       </div>
+                                       `;
+        var data1 = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.deThiPart1));
+        var data2 = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.deThiPart2));
+        var data3 = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.deThiPart3));
+        var data4 = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.deThiPart4));
+        var data5 = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.deThiPart5));
+        var data6 = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.deThiPart6));
+        var data7 = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.deThiPart7));
+
+        window.addEventListener('load', async function () {
+            //await playAudio("/audio/directionpart1.mp3", part1);
+            //await displayQuestions(data1, 0, '1');
+            //await playAudio("/audio/directionpart2.mp3", part2);
+            //await displayQuestions(data2, 0, '1');
+            //await playAudio("/audio/directionpart3.mp3", part3);
+            //await displayQuestions(data3, 0, '2');
+            //await playAudio("/audio/directionpart4.mp3", part4);
+            //await displayQuestions(data4, 0, '2');
+            //await playAudioWithoutAudio(part5);
+            //await displayQuestionNext(data5, 0);
+            //await playAudioWithoutAudio(part6);
+            //await displayQuestionNext(data6, 0);
+            await playAudioWithoutAudio(part7);
+            await displayQuestionNext(data7, 0);
+        });
+
+        async function playAudio(audioSrc, newContent) {
+            document.getElementById("contentTest").innerHTML = newContent;
+            document.getElementById("ansques").style.display = "none";
+
+            const audio = new Audio(audioSrc);
+
+            return new Promise(async (resolve) => {
+                audio.addEventListener("ended", () => {
+                    document.getElementById("contentTest").innerHTML = "";
+                    document.getElementById("ansques").style.display = "flex";
+                    resolve();
+                });
+
+                audio.play();
+            });
+        }
+        async function playAudioWithoutAudio(newContent) {
+            document.getElementById("contentTest").innerHTML = newContent;
+            document.getElementById("ansques").style.display = "none";
+            return new Promise(async (resolve) => {
+                setTimeout(() => {
+                    document.getElementById("contentTest").innerHTML = "";
+                    document.getElementById("ansques").style.display = "flex";
+                    resolve();
+                }, 10000);
+            });
+        }
+
+
+        const question = document.getElementById("question");
+        const answer = document.getElementById("answer");
+
+        async function displayQuestions(list, index, type = '1') {
+            if (index >= list.length) {
+                return;
+            }
+            if (!list || !list[index]) {
+                return;
+            }
+
+            const audio = new Audio(`/audio/${list[index].Audio}`);
+            await new Promise((resolve) => {
+                question.innerHTML = `<div>
+                          <h5 style="font-weight: 600; margin-bottom: 3vh">Select the one statement that best describes what you see in the picture</h5>`;
+
+                if (list[index].Picture != null) {
+                    question.innerHTML += `<img src="/images/${list[index].Picture}" style="width: 100%; height: 60vh; border-radius: 10px; border: 1px solid black; box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.2);">`;
+                }
+                switch (type) {
+                    case '1': {
+                        answer.innerHTML = `<div>
+                                    <h5 style="font-weight: 600; margin-bottom: 3vh">Question ${list[index].STT}: ${list[index].NoiDung ? list[index].NoiDung : ""}</h5>
+                                        <input type="radio" data-id="${list[index].STT}"  onchange="handleAns(${list[index].STT}, event.target.value)" name="answer${list[index].STT}" value="A">
+                                        <label for="answer${list[index].STT}1">${list[index].DapAn1}</label><br>
+                                        <input type="radio" data-id="${list[index].STT}" onchange="handleAns(${list[index].STT}, event.target.value)" name="answer${list[index].STT}" value="B">
+                                        <label for="answer${list[index].STT}2">${list[index].DapAn2}</label><br>
+                                        <input type="radio" data-id="${list[index].STT}" onchange="handleAns(${list[index].STT}, event.target.value)" name="answer${list[index].STT}" value="C">
+                                        <label for="answer${list[index].STT}3">${list[index].DapAn3}</label><br>
+                                        <input type="radio" data-id="${list[index].STT}" onchange="handleAns(${list[index].STT}, event.target.value)" name="answer${list[index].STT}" value="D">
+                                        <label for="answer${list[index].STT}4">${list[index].DapAn4}</label><br>
+                                                   </div>`;
+                        break;
+                    }
+                    case '2': {
+                        answer.innerHTML = '';
+                        for (let i = index; i < index + 3; i++) {
+                            answer.innerHTML += `<div>
+                                        <h5 style="font-weight: 600; margin-bottom: 3vh">Question ${list[i].STT}: ${list[i].NoiDung ? list[i].NoiDung : ""}</h5>
+                                              <input type="radio" data-id="${list[index].STT}" onchange="handleAns(${list[index].STT}, event.target.value)" name="answer${list[index].STT}" value="A">
+                                              <label for="answer${list[index].STT}1">${list[index].DapAn1}</label><br>
+                                              <input type="radio" data-id="${list[index].STT}" onchange="handleAns(${list[index].STT}, event.target.value)" name="answer${list[index].STT}" value="B">
+                                              <label for="answer${list[index].STT}2">${list[index].DapAn2}</label><br>
+                                              <input type="radio" data-id="${list[index].STT}" onchange="handleAns(${list[index].STT}, event.target.value)" name="answer${list[index].STT}" value="C">
+                                              <label for="answer${list[index].STT}3">${list[index].DapAn3}</label><br>
+                                              <input type="radio" data-id="${list[index].STT}" onchange="handleAns(${list[index].STT}, event.target.value)" name="answer${list[index].STT}" value="D">
+                                              <label for="answer${list[index].STT}4">${list[index].DapAn4}</label><br>
+                                                        </div>`;
+                        }
+                        break;
+                    }
+                    default: {
+                        console.log('run default');
+                        break;
+                    }
+                }
+                audio.addEventListener("ended", async () => {
+                    await displayQuestions(list, index + (type === '1' ? 1 : 3), type);
+                    resolve();
+                });
+                audio.play();
+            });
+        }
+
+        function displayQuestionNext(list, index, previousTotal) {
+            if (index >= list.length) {
+                return;
+            }
+            console.log("previousTotal", previousTotal)
+            question.innerHTML = `<div>
+                         <h5 style="font-weight: 600; margin-bottom: 3vh">Select the one statement that best describes what you see in the picture</h5>`
+            question.innerHTML += `<img src="/images/${list[index].Picture}" style="width: 100%; height: 60vh; border-radius: 10px; border: 1px solid black; box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.2);">`;
+            const total = totalPicture(list, index);
+            for (let i = index; i < index + total; i++) {
+                if (i >= list.length) {
+                    return;
+                }
+                answer.innerHTML += `<div>
+                            <h5 style="font-weight: 600; margin-bottom: 3vh">Question ${list[i].STT}: ${list[i].NoiDung ? list[i].NoiDung : ""}</h5>
+                                 <input type="radio" data-id="${list[i].STT}" onchange="handleAns(${list[i].STT}, event.target.value)" ${listAnswer[list[i].STT] === 'A' ? 'checked' : ''}  name="answer${list[i].STT}" value="A">
+                                 <label for="answer${list[i].STT}1">${list[i].DapAn1}</label><br>
+                                 <input type="radio" data-id="${list[i].STT}" onchange="handleAns(${list[i].STT}, event.target.value)" ${listAnswer[list[i].STT] === 'B' ? 'checked' : ''} name="answer${list[i].STT}" value="B">
+                                 <label for="answer${list[i].STT}2">${list[i].DapAn2}</label><br>
+                                 <input type="radio" data-id="${list[i].STT}" onchange="handleAns(${list[i].STT}, event.target.value)" ${listAnswer[list[i].STT] === 'C' ? 'checked' : ''}  name="answer${list[i].STT}" value="C">
+                                 <label for="answer${list[i].STT}3">${list[i].DapAn3}</label><br>
+                                 <input type="radio" data-id="${list[i].STT}" onchange="handleAns(${list[i].STT}, event.target.value)" ${listAnswer[list[i].STT] === 'D' ? 'checked' : ''} name="answer${list[i].STT}" value="D">
+                                 <label for="answer${list[i].STT}4">${list[i].DapAn4}</label><br>
+                                             </div>`;
+            }
+            answer.innerHTML += `<div  style='position:absolute; bottom: 0; display:inline-block; left:40%'><button style='width: 5vw' class="btn btn-primary" ${index !== 0 ? '' : 'disabled'} id='pre-btn' data-index='${index - previousTotal}'>Pre</button>
+                       <button style='width: 5vw' class="btn btn-primary" id='next-btn' ${index + total !== list.length ? '' : 'disabled'} data-index='${index + total}'>Next</button> </div>`;
+            const next = document.getElementById('next-btn');
+            next.addEventListener('click', function (e) {
+                e.preventDefault();
+                answer.innerHTML = '';
+                const newIndex = parseInt(next.getAttribute('data-index'));
+                displayQuestionNext(list, newIndex, total);
+
+            });
+            const pre = document.getElementById('pre-btn');
+            pre.addEventListener('click', function () {
+                answer.innerHTML = '';
+                const newIndex = parseInt(pre.getAttribute('data-index'));
+                displayQuestionNext(list, newIndex, total);
+            });
+        }
+
+        totalPicture = (list, index) => {
+            let total = 0;
+            let id = list[index].IdPicture;
+            for (let i = index; i < list.length; i++) {
+                if (list[i].IdPicture === id) {
+                    total++;
+                }
+            }
+            return total;
+        }
+        // Đồng hồ đếm ngược
+        const countdownDate = new Date().getTime() + 1000 * 60 * 120; // 2 tiếng
+        const countdownSpan = document.getElementById('clock');
+
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = countdownDate - now;
+
+            if (distance <= 0) {
+                countdownSpan.textContent = 'Hết thời gian';
+                console.log('Hết thời gian.');
+            } else {
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)).toString().padStart(2, '0');
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, '0');
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000).toString().padStart(2, '0');
+                countdownSpan.textContent = `${hours}:${minutes}:${seconds}`;
+            }
+        }
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+
+        // Nút Submit
+        const submitButton = document.getElementById('submitBtn');
+        let listAnswer = [];
+
+        function handleAns(index, value) {
+            listAnswer[index] = value;
+        }
+        submitButton.addEventListener('click', () => {
+            const url = window.location.href;
+            const parts = url.split('/');
+            const number = parts[parts.length - 1];
+            const dataSend = {
+                id: number,
+                listAnswer: listAnswer
+            };
+            console.log(dataSend);
+            fetch('/Exam/CheckAnswer', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(dataSend)
+            })
+                .then(response => response.json())
+                .then(data => {
+                    // Handle the response from the server if needed
+                    console.log(data);
+                });
+        });
+    </script>
+</body>
+</html>

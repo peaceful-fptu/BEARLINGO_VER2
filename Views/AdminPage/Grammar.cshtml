@@ -1,0 +1,144 @@
+﻿@{
+    Layout = "~/Views/Shared/_AdminBearlingoLayout.cshtml";
+}
+<script src="//cdn.ckeditor.com/4.15.0/standard/ckeditor.js"></script>
+<div class="app-title">
+    <ul class="app-breadcrumb breadcrumb side">
+        <li class="breadcrumb-item active"><a href="#"><b>Danh sách Bài Ngữ Pháp</b></a></li>
+    </ul>
+    <div id="clock"></div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="tile">
+            <div class="tile-body">
+
+                <div class="row element-button">
+                    <div class="col-sm-2">
+
+                        <a class="btn btn-add btn-sm" asp-action="AddNguPhap" asp-controller="Grammar" title="Thêm">
+                            <i class="fas fa-plus"></i>
+                            Tạo mới Ngữ Pháp
+                        </a>
+                    </div>
+                </div>
+                <table class="table table-hover table-bordered js-copytextarea" cellpadding="0" cellspacing="0" border="0"
+                       id="sampleTable">
+                    <thead>
+                        <tr>
+                            <th width="10"><input type="checkbox" id="all"></th>
+                            <th>ID </th>
+                            <th>Tiêu đề</th>
+                            <th>Chủ Đề Ngữ Pháp</th>
+                            <th>Tính năng</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in ViewBag.listNP)
+                        {
+                            <tr>
+                                <td width="10"><input type="checkbox" name="check1" value="@item.IdnguPhap"></td>
+                                <td>#@item.IdnguPhap</td>
+                                <td>@item.TieuDe</td>
+                                <td>@item.IdchuDeNguPhapNavigation.TenNguPhap</td>
+                                <td class="table-td-center">
+                                    <button class="btn btn-primary btn-sm trash" type="button" title="Xóa"
+                                            onclick="deleteCDNP(@item.IdnguPhap)">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                    <button class="btn btn-primary btn-sm edit" type="button" title="Sửa" id="show-emp"
+                                            data-toggle="modal" data-target="#ModalUP@(item.IdnguPhap)">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <div class="modal fade" id="ModalUP@(item.IdnguPhap)" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static"
+                                 data-keyboard="false">
+                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+
+                                        <div class="modal-body">
+                                            <div class="row">
+                                                <div class="form-group  col-md-12">
+                                                    <span class="thong-tin-thanh-toan">
+                                                        <h5>Chỉnh sửa Ngữ Pháp</h5>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <form class="row" asp-action="UpdateNguPhap" asp-controller="Grammar" method="post">
+                                                <input type="hidden" name="idNguPhap" value="@item.IdnguPhap">
+                                                <div class="form-group col-md-12">
+                                                    <label class="control-label">Tiêu đề</label>
+                                                    <input class="form-control" type="text" name="tieuDe" required value="@item.TieuDe">
+                                                </div>
+                                                <div class="form-group col-md-12">
+                                                    <label class="control-label">Cách dùng</label>
+                                                    <textarea class="form-control" name="cachDung" id="cachdung" required>@item.CachDung</textarea>
+                                                    <script>CKEDITOR.replace('cachdung');</script>
+                                                </div>
+                                                <div class="form-group col-md-12">
+                                                    <label class="control-label">Cấu trúc</label>
+                                                    <textarea class="form-control" name="cauTruc" id="cautruc" required>@item.CauTruc</textarea>
+                                                    <script>CKEDITOR.replace('cautruc');</script>
+                                                </div>
+                                                <div class="form-group col-md-12">
+                                                    <label class="control-label">Bổ sung</label>
+                                                    <textarea class="form-control" name="boSung" id="bosung" required>@item.BoSung</textarea>
+                                                    <script>CKEDITOR.replace('bosung');</script>
+                                                </div>
+                                                <div class="form-group col-md-12">
+                                                    <label class="control-label">Lưu ý</label>
+                                                    <textarea class="form-control" name="luuY" id="luuy" required>@item.LuuY</textarea>
+                                                    <script>CKEDITOR.replace('luuy');</script>
+                                                </div>
+                                                <div class="form-group col-md-12">
+                                                    <label class="control-label">Chủ đề ngữ pháp</label>
+                                                    <select class="form-control" id="exampleSelect3" name="idChuDe">
+                                                        @foreach (var x in ViewBag.listCDNP)
+                                                        {
+                                                            <option selected=@(x.IdchuDeNguPhap == item.IdchuDeNguPhapNavigation.IdchuDeNguPhap ? "selected" : " ") value="@x.IdchuDeNguPhap">@x.TenNguPhap</option>
+                                                        }
+                                                    </select>
+                                                </div>
+                                                <div class="form-group col-md-12">
+                                                    <label class="control-label">Ví dụ</label>
+                                                    <textarea class="form-control" name="viDu" id="vidu" required>@item.ViDu</textarea>
+                                                    <script>CKEDITOR.replace('vidu');</script>
+                                                </div>
+                                                <button class="btn btn-save" type="submit">Lưu lại</button>
+                                                <a class="btn btn-cancel" data-dismiss="modal" href="#">Hủy bỏ</a>
+                                            </form>
+
+                                            <BR>
+                                        </div>
+                                        <div class="modal-footer">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script>
+        function deleteCDNP(i) {
+            swal({
+                title: "Cảnh báo",
+
+                text: "Bạn có chắc chắn là muốn xóa ngữ pháp?",
+                buttons: ["Hủy bỏ", "Đồng ý"],
+            })
+                .then((willDelete) => {
+                    if (willDelete) {
+
+                        swal("Đã xóa thành công.!", {
+
+                        });
+                        window.location.href = "@(Context.Request.PathBase)/Grammar/DeleteNguPhap?idNguPhap=" + i;
+                    }
+                });
+        }
+    </script>
+</div>

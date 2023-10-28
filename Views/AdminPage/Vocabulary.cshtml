@@ -1,0 +1,140 @@
+﻿@{
+    Layout = "~/Views/Shared/_AdminBearlingoLayout.cshtml";
+}
+<script src="//cdn.ckeditor.com/4.15.0/standard/ckeditor.js"></script>
+<div class="app-title">
+    <ul class="app-breadcrumb breadcrumb side">
+        <li class="breadcrumb-item active"><a href="#"><b>Danh sách Từ Vựng</b></a></li>
+    </ul>
+    <div id="clock"></div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="tile">
+            <div class="tile-body">
+
+                <div class="row element-button">
+                    <div class="col-sm-2">
+
+                        <a class="btn btn-add btn-sm" asp-action="AddTuVung" asp-controller="Vocabulary" title="Thêm">
+                            <i class="fas fa-plus"></i>
+                            Tạo mới Từ Vựng
+                        </a>
+                    </div>
+                </div>
+                <table class="table table-hover table-bordered js-copytextarea" cellpadding="0" cellspacing="0" border="0"
+                       id="sampleTable">
+                    <thead>
+                        <tr>
+                            <th width="10"><input type="checkbox" id="all"></th>
+                            <th>ID </th>
+                            <th>Từ Vựng</th>
+                            <th>Phát âm</th>
+                            <th>Loại Từ</th>
+                            <th>Chủ Đề Từ Vựng</th>
+                            <th>Tính năng</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in ViewBag.listNP)
+                        {
+                            <tr>
+                                <td width="10"><input type="checkbox" name="check1" value="@item.IdtuVung"></td>
+                                <td>#@item.IdtuVung</td>
+                                <td>@item.TuVung1</td>
+                                <td>@item.PhatAm</td>
+                                <td>@item.LoaiTu</td>
+                                <td>@item.IdchuDeTuVungNavigation.ChuDe</td>                                
+                                <td class="table-td-center">
+                                    <button class="btn btn-primary btn-sm trash" type="button" title="Xóa"
+                                            onclick="deleteTV(@item.IdtuVung)">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                    <button class="btn btn-primary btn-sm edit" type="button" title="Sửa" id="show-emp"
+                                            data-toggle="modal" data-target="#ModalUP@(item.IdtuVung)">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <div class="modal fade" id="ModalUP@(item.IdtuVung)" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static"
+                                 data-keyboard="false">
+                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+
+                                        <div class="modal-body">
+                                            <div class="row">
+                                                <div class="form-group  col-md-12">
+                                                    <span class="thong-tin-thanh-toan">
+                                                        <h5>Chỉnh sửa Từ Vựng</h5>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <form class="row" asp-action="UpdateTuVung" asp-controller="Vocabulary" method="post">
+                                                <input type="hidden" name="idTuVung" value="@item.IdtuVung">
+                                                <div class="form-group col-md-12">
+                                                    <label class="control-label">Từ Vựng</label>
+                                                    <input class="form-control" type="text" name="tuVung1" required value="@item.TuVung1">
+                                                </div>
+                                                <div class="form-group col-md-12">
+                                                    <label class="control-label">Phát Âm</label>
+                                                    <input class="form-control" type="text" name="phatAm" required value="@item.PhatAm">
+                                                </div>
+                                                <div class="form-group col-md-12">
+                                                    <label class="control-label">Loại Từ</label>
+                                                    <input class="form-control" type="text" name="loaiTu" required value="@item.LoaiTu">
+                                                </div>
+                                                <div class="form-group col-md-12">
+                                                    <label class="control-label">Nghĩa Từ Vựng</label>
+                                                    <input class="form-control" type="text" name="nghiaTuVung" required value="@item.NghiaTuVung">
+                                                </div>
+                                                <div class="form-group col-md-12">
+                                                    <label class="control-label">Chủ đề Từ Vựng</label>
+                                                    <select class="form-control" id="exampleSelect3" name="idChuDeTuVung">
+                                                        @foreach (var x in ViewBag.listCDTV)
+                                                        {
+                                                            <option selected=@(x.IdchuDeTuVung == item.IdchuDeTuVungNavigation.IdchuDeTuVung ? "selected" : " ") value="@x.IdchuDeTuVung">@x.ChuDe</option>
+                                                        }
+                                                    </select>
+                                                </div>
+                                                <div class="form-group col-md-12">
+                                                    <label class="control-label">Ví dụ</label>
+                                                    <textarea class="form-control" name="viDuTuVung" id="vidu" required>@item.ViDuTuVung</textarea>
+                                                    <script>CKEDITOR.replace('vidu');</script>
+                                                </div>
+                                                <button class="btn btn-save" type="submit">Lưu lại</button>
+                                                <a class="btn btn-cancel" data-dismiss="modal" href="#">Hủy bỏ</a>
+                                            </form>
+
+                                            <BR>
+                                        </div>
+                                        <div class="modal-footer">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script>
+        function deleteTV(i) {
+            swal({
+                title: "Cảnh báo",
+
+                text: "Bạn có chắc chắn là muốn xóa từ vựng?",
+                buttons: ["Hủy bỏ", "Đồng ý"],
+            })
+                .then((willDelete) => {
+                    if (willDelete) {
+
+                        swal("Đã xóa thành công.!", {
+
+                        });
+                        window.location.href = "@(Context.Request.PathBase)/Vocabulary/DeleteTuVung?idTuVung=" + i;
+                    }
+                });
+        }
+    </script>
+</div>

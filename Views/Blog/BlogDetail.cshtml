@@ -1,0 +1,77 @@
+﻿<!doctype html>
+<html lang="en">
+@{
+    Layout = null;
+    var listNguPhap = ViewData["listNguPhap"] as List<NguPhap>;
+}
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Bearlingo</title>
+    <link rel="icon" href="images/300775178_401970438737681_809766260095184123_n (1).png">
+    <script src="https://kit.fontawesome.com/355da00255.js" crossorigin="anonymous"></script>
+
+    <!-- CSS FILES -->
+    <link rel="preconnect" @Url.Content("https://fonts.googleapis.com")>
+    <link rel="stylesheet" @Url.Content("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css")>
+    <link rel="preconnect" @Url.Content("https://fonts.gstatic.com") crossorigin>
+    <link rel="stylesheet" @Url.Content("https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Open+Sans&display=swap")>
+    <link href="~/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/css/bootstrap-icons.css" rel="stylesheet">
+    <link href="~/css/templatemo-topic-listing.css" rel="stylesheet">
+    <!--
+
+    TemplateMo 590 topic listing
+
+    https://templatemo.com/tm-590-topic-listing
+
+    -->
+</head>
+
+<body id="top">
+
+    <main>
+
+        @Html.Partial("Navbar")
+
+        <section class="explore-section section-padding" id="section_2">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <h2 class="text-black mb-4">Blog</h2>
+                    </div>
+                    <div class="col-lg-10 col-6 mx-auto">
+                        <div class="timeline-container">
+                            <div class="list-progress">
+                                <div class="inner"></div>
+                            </div>
+                            <div class="row">
+                                <h4 class="col-5">@ViewBag.Blog.TieuDe</h4>
+                                <div class="col-7">
+                                    <img style="width:50%" src="@ViewBag.Blog.Anh"/>
+                                </div>
+                                <div>
+                                    @Html.Raw(@ViewBag.Blog.NoiDungBlog)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    @Html.Partial("Footer")
+
+    <!-- JAVASCRIPT FILES -->
+    <script src="~/js/jquery.min.js"></script>
+    <script src="~/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/jquery.sticky.js"></script>
+    <script src="~/js/click-scroll.js"></script>
+    <script src="~/js/custom.js"></script>
+
+</body>
+</html>

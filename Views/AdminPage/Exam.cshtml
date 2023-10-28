@@ -1,0 +1,132 @@
+﻿@{
+    Layout = "~/Views/Shared/_AdminBearlingoLayout.cshtml";
+}
+<script src="//cdn.ckeditor.com/4.15.0/standard/ckeditor.js"></script>
+<div class="app-title">
+    <ul class="app-breadcrumb breadcrumb side">
+        <li class="breadcrumb-item active"><a href="#"><b>Danh sách Đề thi</b></a></li>
+    </ul>
+    <div id="clock"></div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="tile">
+            <div class="tile-body">
+
+                <div class="row element-button">
+                    <div class="col-sm-2">
+                        <a class="btn btn-add btn-sm" asp-action="addExam" asp-controller="Exam" title="Thêm">
+                            <i class="fas fa-plus"></i>
+                            Tạo mới Đề thi
+                        </a>
+                    </div>
+                </div>
+                <table class="table table-hover table-bordered js-copytextarea" cellpadding="0" cellspacing="0" border="0"
+                       id="sampleTable">
+                    <thead>
+                        <tr>
+                            <th width="10"><input type="checkbox" id="all"></th>
+                            <th width="50">ID</th>
+                            <th width="250">Tên đề thi</th>
+                            <th width="50">Thời gian</th>
+                            <th width="400">Nội dung đề thi</th>
+                            <th width="100">Tên đề ETS</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @foreach (var item in ViewBag.exams)
+                        {
+                            <tr>
+                                <td width="10"><input type="checkbox" name="check1" value="@item.IddeThi"></td>
+                                <td>#@item.IddeThi</td>
+                                <td>@item.TenDeThi</td>
+                                <td>@item.ThoiGian</td>
+                                <td>@item.NoiDungDeThi</td>
+                                <td>@item.IdetsNavigation.TenEts</td>
+                                <td class="table-td-center">
+                                    <button class="btn btn-primary btn-sm trash" type="button" title="Xóa"
+                                            onclick="deleteExam(@item.IddeThi)">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                    <button class="btn btn-primary btn-sm edit" type="button" title="Sửa" id="show-emp"
+                                            data-toggle="modal" data-target="#ModalUP@(item.IddeThi)">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                </td>
+                                <div class="modal fade" id="ModalUP@(item.IddeThi)" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static"
+                                     data-keyboard="false">
+                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-body">
+                                                <div class="row">
+                                                    <div class="form-group  col-md-12">
+                                                        <span class="thong-tin-thanh-toan">
+                                                            Chỉnh sửa Đề thi
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <form class="row" asp-action="editExam" asp-controller="Exam" method="post" enctype="multipart/form-data">
+                                                    <div class="form-group col-md-6">
+                                                        <label class="control-label">ID</label>
+                                                        <input class="form-control" name="id" type="text" required value="@item.IddeThi" readonly>
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <label class="control-label">Tên đề thi</label>
+                                                        <input class="form-control" name="title" type="text" required value="@item.TenDeThi">
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <label class="control-label">Thời gian</label>
+                                                        <input class="form-control" name="title" type="text" required value="@item.ThoiGian">
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <label class="control-label">Nội dung đề thi</label>
+                                                        <input class="form-control" name="title" type="text" required value="@item.NoiDungDeThi">
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <label class="control-label">Tên đề ETS</label>
+                                                        <input class="form-control" name="title" type="text" required value="@item.IdetsNavigation.TenEts">
+                                                    </div>
+                                                    <BR>
+                                                    <BR>
+                                                    <BR>
+                                                    <button class="btn btn-save" type="submit">Lưu lại</button>
+                                                    <a class="btn btn-cancel" data-dismiss="modal" href="#">Hủy bỏ</a>
+                                                </form>
+
+                                                <BR>
+                                            </div>
+                                            <div class="modal-footer">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </tr>
+                        }
+
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script>
+        function deleteBlog(i) {
+            swal({
+                title: "Cảnh báo",
+
+                text: "Bạn có chắc chắn là muốn xóa blog?",
+                buttons: ["Hủy bỏ", "Đồng ý"],
+            })
+                .then((willDelete) => {
+                    if (willDelete) {
+
+                        swal("Đã xóa thành công.!", {
+
+                        });
+                        window.location.href = "@(Context.Request.PathBase)/Blog/deleteBlog?id=" + i;
+                    }
+                });
+        }
+    </script>
+</div>

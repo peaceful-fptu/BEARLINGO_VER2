@@ -1,0 +1,187 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+@{
+    Layout = null;
+    var listTuVung = ViewData["listTuVung"] as List<TuVung>;
+}
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Bearlingo</title>
+    <link rel="icon" href="images/300775178_401970438737681_809766260095184123_n (1).png">
+    <script src="https://kit.fontawesome.com/355da00255.js" crossorigin="anonymous"></script>
+
+    <!-- CSS FILES -->
+    <link rel="preconnect" @Url.Content("https://fonts.googleapis.com")>
+    <link rel="stylesheet" @Url.Content("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css")>
+    <link rel="preconnect" @Url.Content("https://fonts.gstatic.com") crossorigin>
+    <link rel="stylesheet" @Url.Content("https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Open+Sans&display=swap")>
+    <link href="~/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/css/bootstrap-icons.css" rel="stylesheet">
+    <link href="~/css/templatemo-topic-listing.css" rel="stylesheet">
+    <style>
+        /* Thiết lập cơ bản cho trang web */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4; /* Màu nền tổng thể */
+        }
+
+        /* Thiết lập cho Navbar */
+        #Navbar {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+        }
+
+        /* Phần explore-section */
+        .explore-section {
+            background-size: cover;
+            background-position: center;
+            color: #fff;
+            padding: 60px 0;
+        }
+
+        /* Container chứa nội dung */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        /* Tiêu đề */
+        h2 {
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+
+        /* Timeline container */
+        .timeline-container {
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 5px;
+            padding: 20px;
+        }
+
+        /* Progress bar */
+        .list-progress {
+            background-color: #333;
+            height: 5px;
+            margin-bottom: 20px;
+        }
+
+        .inner {
+            background-color: #fff;
+            height: 100%;
+            width: 0; /* Động theo tiến trình nếu cần */
+            transition: width 1s; /* Thời gian thay đổi tiến trình */
+        }
+
+        /* Tiêu đề con */
+        h4 {
+            font-size: 24px;
+            margin-top: 20px;
+        }
+
+        /* Nội dung con */
+        div {
+            font-size: 18px;
+        }
+
+        .vocabulary {
+            text-align: center;
+            margin: 20px;
+        }
+
+        .word {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .section {
+            margin: 20px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .pronunciation {
+            font-style: italic;
+        }
+
+        .example {
+            font-style: italic;
+            margin-top: 10px;
+        }
+
+        .category {
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .meaning {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body id="top">
+
+    <main>
+        @Html.Partial("Navbar")
+        <section class="explore-section section-padding" id="section_2" style="height: fit-content;">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <br />
+                        <br />
+                        <h2 class="text-black mb-4">Từ Vựng</h2>
+                    </div>
+                    <div class="col-lg-10 col-6 mx-auto">
+                        <div class="timeline-container">
+                            <div class="list-progress">
+                                <div class="inner"></div>
+                            </div>
+                            <div class="row">
+                                @for (int i = 1; i <= listTuVung!.Count(); i++)
+                                {
+                                    <h4>@i. @listTuVung!.ElementAt(i - 1).TuVung1</h4>
+                                    <table class="table table-bodered">
+                                        <thead>
+                                            <tr>
+                                                <th>@listTuVung!.ElementAt(i - 1).PhatAm</th>
+                                                <th>@listTuVung!.ElementAt(i - 1).LoaiTu</th>
+                                                <th>@listTuVung!.ElementAt(i - 1).NghiaTuVung</th>
+                                                
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td colspan="3">Ví dụ: @Html.Raw(@listTuVung!.ElementAt(i - 1).ViDuTuVung)</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    @Html.Partial("Footer")
+
+    <!-- JAVASCRIPT FILES -->
+    <script src="~/js/jquery.min.js"></script>
+    <script src="~/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/jquery.sticky.js"></script>
+    <script src="~/js/click-scroll.js"></script>
+    <script src="~/js/custom.js"></script>
+
+</body>
+</html>

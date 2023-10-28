@@ -1,0 +1,87 @@
+﻿@{
+    Layout = null;
+}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Bearlingo</title>
+    <!-- CSS FILES -->
+    <link rel="preconnect" @Url.Content("https://fonts.googleapis.com")>
+    <link rel="stylesheet" @Url.Content("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css")>
+    <link rel="preconnect" @Url.Content("https://fonts.gstatic.com") crossorigin>
+    <link rel="stylesheet" @Url.Content("https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Open+Sans&display=swap")>
+    <link href="~/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/css/bootstrap-icons.css" rel="stylesheet">
+    <link href="~/css/templatemo-topic-listing.css" rel="stylesheet">
+
+    <style>
+        .card {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            width: 300px;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+            text-align: left;
+        }
+
+            .card h2 {
+                font-size: 18px;
+                margin: 0;
+            }
+
+            .card p {
+                font-size: 14px;
+                margin: 0;
+            }
+
+        .button {
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    @Html.Partial("Navbar")
+    <main>
+        <div class="container">
+            <div>
+                <div class="col-12 text-center">
+                    <h2 class="mb-4" style="color: darkcyan; margin-top: 100px">Danh sách đề thi</h2>
+                </div>
+            </div>
+            <div class="row">
+                @foreach (var item in ViewBag.ListDeThi)
+                {
+                    <div class="col-md-3">
+                        <div class="card" style="margin-bottom: 20px">
+                            <h2>Tên đề thi: @item.TenDeThi</h2>
+                            <p>Thời gian: 120 phút</p>
+                            <p>Số phần thi: 7</p>
+                            <p>Số câu hỏi: 200</p>
+                            <a class="btn custom-btn mt-3 mt-lg-4" asp-controller="Exam" asp-action="CreateExam" asp-route-id="@item.IddeThi">Làm bài</a>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </main>
+    @Html.Partial("Footer")
+
+    <!-- JAVASCRIPT FILES -->
+    <script src="~/js/jquery.min.js"></script>
+    <script src="~/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/jquery.sticky.js"></script>
+    <script src="~/js/click-scroll.js"></script>
+    <script src="~/js/custom.js"></script>
+
+</body>
+</html>
