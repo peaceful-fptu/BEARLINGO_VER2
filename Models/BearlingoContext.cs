@@ -199,7 +199,7 @@ public partial class BearlingoContext : DbContext
             entity.Property(e => e.CorrectL).HasMaxLength(50);
             entity.Property(e => e.IdbaiLam).HasColumnName("IDBaiLam");
             entity.Property(e => e.Idlquestion).HasColumnName("IDLQuestion");
-            entity.Property(e => e.NgayThi).HasColumnType("date");
+        //    entity.Property(e => e.NgayThi).HasColumnType("date");
 
             entity.HasOne(d => d.IdbaiLamNavigation).WithMany(p => p.KetQuaLs)
                 .HasForeignKey(d => d.IdbaiLam)
@@ -222,7 +222,7 @@ public partial class BearlingoContext : DbContext
             entity.Property(e => e.CorrectR).HasMaxLength(50);
             entity.Property(e => e.IdbaiLam).HasColumnName("IDBaiLam");
             entity.Property(e => e.Idrquestion).HasColumnName("IDRQuestion");
-            entity.Property(e => e.NgayThi).HasColumnType("date");
+         //   entity.Property(e => e.NgayThi).HasColumnType("date");
 
             entity.HasOne(d => d.IdbaiLamNavigation).WithMany(p => p.KetQuaRs)
                 .HasForeignKey(d => d.IdbaiLam)

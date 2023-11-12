@@ -9,16 +9,6 @@ public partial class KetQuaL
 
     public string? DapAnNguoiDungL { get; set; }
 
-    public int? SoCauDung { get; set; }
-
-    public int? SoCauSai { get; set; }
-
-    public double? Diem { get; set; }
-
-    public DateTime? NgayThi { get; set; }
-
-    public TimeSpan? ThoiGian { get; set; }
-
     public int Idlquestion { get; set; }
 
     public int IdbaiLam { get; set; }

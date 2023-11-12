@@ -10,9 +10,6 @@ public partial class DeThi
     public string? TenDeThi { get; set; }
 
     public TimeSpan? ThoiGian { get; set; }
-
-    public string? NoiDungDeThi { get; set; }
-
     public int Idqtv { get; set; }
 
     public int Idets { get; set; }

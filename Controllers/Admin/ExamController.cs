@@ -108,6 +108,11 @@ namespace BEARLINGO.Controllers.Admin
             }
             return questionReadingDTOs;
         }
+        public class ExamData
+        {
+            public int id { get; set; }
+            public List<string>? listAnswer { get; set; }
+        }
         [HttpPost]
         public IActionResult CheckAnswer([FromBody] ExamData data)
         {
@@ -117,6 +122,16 @@ namespace BEARLINGO.Controllers.Admin
             int countReadIncorrect = 0;
             int id = data.id;
             int list = 101;
+            int idUser = (int)HttpContext.Session.GetInt32("Id")!;
+            var Info = new BaiLam
+            {
+                ThoiGian = DateTime.Now.TimeOfDay,
+                NgayThi = DateTime.Now,
+                IddeThi = id,
+                IdnguoiDung = idUser
+            };
+            _context.BaiLams.Add(Info);
+            _context.SaveChanges();
             List<string>? listAnswer = data.listAnswer;
             if (listAnswer?.Count < 102)
             {
@@ -134,6 +149,14 @@ namespace BEARLINGO.Controllers.Admin
                 {
                     foreach (var item in listeningMark)
                     {
+                        var listeningResult = new KetQuaL
+                        {
+                            IdbaiLam = Info.IdbaiLam,
+                            Idlquestion = item.Idlquestion,
+                            DapAnNguoiDungL = listAnswer?[i],
+                            CorrectL = item.DapAnDung
+                        };
+                        _context.KetQuaLs.Add(listeningResult);
                         if (listAnswer?[i] == item.DapAnDung && listAnswer?[i] != null)
                         {
                             countListenCorrect++;
@@ -146,29 +169,7 @@ namespace BEARLINGO.Controllers.Admin
                 }
 
             }
-            int idUser = (int)HttpContext.Session.GetInt32("Id");
-            var Info = new BaiLam
-            {
-                // set thoigian = datetime.now
-                ThoiGian = DateTime.Now.TimeOfDay,
-                NgayThi = DateTime.Now,
-                IddeThi = id,
-                IdnguoiDung = idUser
-            };
-            _context.BaiLams.Add(Info);
-            _context.SaveChanges();
-        var Listen = new KetQuaL
-        {
-            SoCauDung = countListenCorrect,
-            SoCauSai = countListenIncorrect,
-            Diem = countListenCorrect >= 95 ? 495 : countListenCorrect * 5 + 15,
-            NgayThi = DateTime.Now,
-            Idlquestion = 2,
-            IdbaiLam = Info.IdbaiLam,
-        };
-            _context.KetQuaLs.Add(Listen);
-            _context.SaveChanges();
-            for (int i = 101; i < listAnswer?.Count; i++)
+            for (int i = 101; i < 201; i++)
             {
                 var readingMark = _context.Readings.Where(x => x.IddeThi == id && x.Stt == i).ToList();
                 if (readingMark.Count == 0)
@@ -180,9 +181,24 @@ namespace BEARLINGO.Controllers.Admin
                 {
                     foreach (var item in readingMark)
                     {
-                        if (listAnswer?[i] == item.DapAnDung && listAnswer?[i] != null)
+                        var readingResult = new KetQuaR
                         {
-                            countReadCorrect++;
+                            IdbaiLam = Info.IdbaiLam,
+                            Idrquestion = item.Idrquestion,
+                            DapAnNguoiDungR = (listAnswer!.Count - 1 < i) ? null : listAnswer[i],
+                            CorrectR = item.DapAnDung
+                        };
+                        _context.KetQuaRs.Add(readingResult);
+                        if (i < listAnswer?.Count)
+                        {
+                            if (listAnswer?[i] == item.DapAnDung && listAnswer?[i] != null)
+                            {
+                                countReadCorrect++;
+                            }
+                            else
+                            {
+                                countReadIncorrect++;
+                            }
                         }
                         else
                         {
@@ -190,28 +206,15 @@ namespace BEARLINGO.Controllers.Admin
                         }
                     }
                 }
-
             }
-            var Reading = new KetQuaR
-            {
-                SoCauDung = countReadCorrect,
-                SoCauSai = countReadIncorrect,
-                Diem = countReadCorrect >= 95 ? 495 : countReadCorrect * 5 + 15,
-                NgayThi = DateTime.Now,
-                IdbaiLam = Info.IdbaiLam,
-                Idrquestion = 2
-            };
-            _context.KetQuaRs.Add(Reading);
+            var infoCheck = _context.BaiLams.Find(Info.IdbaiLam)!;
+            infoCheck.DiemL = countListenCorrect * 5 + 15;
+            infoCheck.DiemR = countReadCorrect * 5 + 15;
+            infoCheck.SoCauDungL = countListenCorrect;
+            infoCheck.SoCauDungR = countReadCorrect;
             _context.SaveChanges();
-
-            return View("~/Views/AdminPage/Exam.cshtml");
+            return Json(new { success = true, socauDungL = infoCheck.SoCauDungL, socauDungR = infoCheck.SoCauDungR ,idbailam = infoCheck.IdbaiLam, diemL = infoCheck.DiemL, diemR = infoCheck.DiemR, message = "Đã hoàn thành bài thi" });
         }
-        public class ExamData
-        {
-            public int id { get; set; }
-            public List<string>? listAnswer { get; set; }
-        }
-
         public IActionResult ExamManage()
         {
             ViewBag.navlink = "exam";
@@ -230,6 +233,53 @@ namespace BEARLINGO.Controllers.Admin
         public IActionResult EditExam()
         {
             return View("~/Views/AdminPage/EditExam.cshtml");
+        }
+        public IActionResult getTests(string num)
+        {
+            int totalPages = 0;
+            int pageSize = 4;
+            int idUser = (int)HttpContext.Session.GetInt32("Id")!;
+            List<BaiLam> list = _context.BaiLams.Where(n => n.IdnguoiDung == idUser).ToList();
+            totalPages = (list.Count() % pageSize) > 0 ? (list.Count() / pageSize) + 1 : (list.Count() / pageSize);
+            if (!string.IsNullOrEmpty(num))
+            {
+                list = list.Skip(pageSize * (Convert.ToInt32(num) - 1)).Take(pageSize).ToList();
+            }
+            else
+            {
+                num = "1";
+                list = list.Skip(pageSize * (Convert.ToInt32(num) - 1)).Take(pageSize).ToList();
+            }
+            ViewBag.tests = list;
+            ViewBag.totalPage = totalPages;
+            return View("~/Views/Exam/MyTest.cshtml");
+        }
+        public IActionResult MyTest()
+        {
+            int idUser = (int)HttpContext.Session.GetInt32("Id")!;
+            List<BaiLam> list = _context.BaiLams
+                                    .Include(n => n.IddeThiNavigation)
+                                    .Where(n => n.IdnguoiDung == idUser)
+                                    .ToList();
+            ViewBag.myTest = list;
+            return View();
+        }
+        [HttpGet]
+        public IActionResult ExamDetail(int id)
+        {
+            int idUser = (int)HttpContext.Session.GetInt32("Id")!;
+
+            var listen = _context.KetQuaLs
+                                .Include(n => n.IdlquestionNavigation)
+                                .Where(n => n.IdbaiLam == id)
+                                .ToList();
+            var read = _context.KetQuaRs
+                                .Include(n => n.IdrquestionNavigation)
+                                .Where(n => n.IdbaiLam == id)
+                                .ToList();
+            ViewBag.listening = listen;
+            ViewBag.reading = read;
+            return View();
         }
     }
 }

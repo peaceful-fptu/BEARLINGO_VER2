@@ -10,6 +10,10 @@ public partial class BaiLam
     public TimeSpan? ThoiGian { get; set; }
 
     public DateTime? NgayThi { get; set; }
+    public int? SoCauDungL { get; set; }
+    public int? SoCauDungR { get; set; }
+    public int? DiemL { get; set; }
+    public int? DiemR { get; set; }
 
     public int IddeThi { get; set; }
 

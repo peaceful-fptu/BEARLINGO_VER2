@@ -2,8 +2,6 @@
 <html lang="en">
 @{
     Layout = null;
-    var listChuDe = ViewData["listChuDeNguPhap"] as List<ChuDeNguPhap>;
-    var totalPages = ViewData["totalPages"] as int?;
 }
 <head>
     <meta charset="utf-8">
@@ -11,8 +9,13 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <title>Bearlingo</title>
-    <link rel="icon" href="images/300775178_401970438737681_809766260095184123_n (1).png">
-    <script src="https://kit.fontawesome.com/355da00255.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.1/dist/jquery.slim.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 
     <!-- CSS FILES -->
     <link rel="preconnect" @Url.Content("https://fonts.googleapis.com")>
@@ -41,30 +44,53 @@
             <div class="container">
                 <div class="row">
 
-                    <div class="col-lg-12 col-12 text-center">
-                        <h3 class="mb-4">Ngữ Pháp</h3>
-                    </div>
-
                     <div class="col-lg-8 col-12 mt-3 mx-auto">
-                        @foreach (var item in listChuDe!)
-                        {
 
-                            <div class="custom-block custom-block-topics-listing bg-white shadow-lg mb-5">
-                                <div class="d-flex">
-                                    <img src="~/images/topics/undraw_Remote_design_team_re_urdx.png" class="custom-block-image img-fluid" alt="">
+                        <div class="card">
+                            <div class="card-body">
+                                <h2 class="card-title text-center">Lịch Sử Làm Bài</h2>
 
-                                    <div class="custom-block-topics-listing-info d-flex">
+                                <!-- Duyệt qua các bài thi -->
+                                @foreach (var baiThi in ViewBag.myTest)
+                                {
+
+                                    <div class="d-flex align-items-center justify-content-between">
                                         <div>
-                                            <h5 class="mb-2">@item.TenNguPhap</h5>
-
-                                            <p class="mb-0">Click button below to more information.</p>
-
-                                            <a class="btn custom-btn mt-3 mt-lg-4" asp-controller="Grammar" asp-action="GrammarDetail" asp-route-id="@item.IdchuDeNguPhap">Learn More</a>
+                                            <h5>@baiThi.IddeThiNavigation.TenDeThi</h5>
+                                            <p class="text-muted">
+                                                Ngày thi: @baiThi.NgayThi.ToString("dd/MM/yyyy")
+                                            </p>
                                         </div>
+                                        @{
+                                            var diem = baiThi.DiemL + baiThi.DiemR;
+
+                                            string mau = "success";
+                                            if (diem < 600)
+                                            {
+                                                mau = "danger";
+                                            }
+                                            else if (diem < 750)
+                                            {
+                                                mau = "warning";
+                                            }
+                                        }
+                                        <span class="badge badge-@mau">
+                                            Điểm: @diem
+                                        </span>
                                     </div>
-                                </div>
+                                    <div>
+                                        <a href="@Url.Action("ExamDetail", "Exam", new { id = baiThi.IdbaiLam })" class="btn btn-primary">
+                                            Xem Chi Tiết
+                                        </a>
+                                    </div>
+
+                                    <hr>
+
+                                }
+
                             </div>
-                        }
+                        </div>
+
                     </div>
 
                     @if (ViewBag.totalPages != 0)
@@ -78,10 +104,10 @@
                                         </a>
                                     </li>
 
-                                    @for (int i = 1; i <= totalPages; i++)
+                                    @for (int i = 1; i <= ViewBag.totalPages; i++)
                                     {
                                         <li class="page-item active" aria-current="page">
-                                            <a class="page-link" asp-controller="Grammar" asp-action="Grammar" asp-route-num="@i">@i</a>
+                                            <a class="page-link" asp-controller="Exam" asp-action="getTests" asp-route-num="@i">@i</a>
                                         </li>
                                     }
 
@@ -98,7 +124,6 @@
                 </div>
             </div>
         </section>
-
     </main>
 
     @Html.Partial("Footer")

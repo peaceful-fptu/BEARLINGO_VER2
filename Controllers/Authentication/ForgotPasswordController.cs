@@ -19,7 +19,7 @@ namespace BEARLINGO.Controllers.Authentication
         {
             using (BearlingoContext ctx = new BearlingoContext())
             {
-                var user = ctx.NguoiDungs.FirstOrDefault(u => u.Gmail.Equals(email));
+                var user = ctx.NguoiDungs.FirstOrDefault(u => u.Gmail!.Equals(email));
                 if (user == null)
                 {
                     string messageError = "Không tìm thấy tài khoản trùng khớp với email được cung cấp";
@@ -50,7 +50,7 @@ namespace BEARLINGO.Controllers.Authentication
         public IActionResult ConfirmOtp(string number1, string number2, string number3, string number4, string number5, string number6)
         {
             string userCode = number1 + number2 + number3 + number4 + number5 + number6;
-            string otpCode = HttpContext.Session.GetSession<string>("otpCode");
+            var otpCode = HttpContext.Session.GetSession<string>("otpCode");
             if (userCode.Equals(otpCode))
             {
                 return RedirectToAction("ChangePassword");
@@ -71,12 +71,12 @@ namespace BEARLINGO.Controllers.Authentication
         [HttpPost]
         public IActionResult ChangePassword(string newPass)
         {
-            string email = HttpContext.Session.GetSession<string>("email");
-            NguoiDung user = ctx.NguoiDungs.FirstOrDefault(u => u.Gmail.Equals(email));
-            user.MatKhau = newPass;
+            var email = HttpContext.Session.GetSession<string>("email");
+            var user = ctx.NguoiDungs.FirstOrDefault(u => u.Gmail!.Equals(email));
+            user!.MatKhau = newPass;
             ctx.NguoiDungs.Update(user);
             ctx.SaveChanges();
-            MailSender.SendMail(email, "Đổi mật khẩu thành công", "Bạn vừa đổi mật khẩu thành công.Từ lần đăng nhập sau bạn có thể đăng nhập bằng mật khẩu mới này");
+            MailSender.SendMail(email!, "Đổi mật khẩu thành công", "Bạn vừa đổi mật khẩu thành công.Từ lần đăng nhập sau bạn có thể đăng nhập bằng mật khẩu mới này");
             return View("~/Views/Authentication/Login.cshtml");
         }
 

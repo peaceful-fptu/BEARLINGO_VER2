@@ -34,8 +34,8 @@ namespace BEARLINGO.Controllers
 
         public IActionResult userProfile()
         {
-            int id = int.Parse(HttpContext.Session.GetString("User"));
-            NguoiDung nguoiDung = context.NguoiDungs.FirstOrDefault(n => n.IdnguoiDung == id);
+            int id = int.Parse(HttpContext.Session.GetString("User")!);
+            var nguoiDung = context.NguoiDungs.FirstOrDefault(n => n.IdnguoiDung == id);
             ViewBag.user = nguoiDung;
             return View("~/Views/Authentication/UserProfile.cshtml");
         }
