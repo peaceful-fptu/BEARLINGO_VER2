@@ -137,7 +137,7 @@ namespace BEARLINGO.Controllers.Admin
             {
                 list = listAnswer.Count;
             }
-            for (int i = 1; i < list; i++)
+            for (int i = 1; i < 101; i++)
             {
                 var listeningMark = _context.Listenings.Where(x => x.IddeThi == id && x.Stt == i).ToList();
                 if (listeningMark.Count == 0)
@@ -149,17 +149,30 @@ namespace BEARLINGO.Controllers.Admin
                 {
                     foreach (var item in listeningMark)
                     {
+                        bool isCorrect = false;
+                        string? a = (listAnswer!.Count - 1 < i) ? null : listAnswer[i];
+                        if (a == item.DapAnDung && a != null)
+                        {
+                            isCorrect = true;
+                        }
                         var listeningResult = new KetQuaL
                         {
                             IdbaiLam = Info.IdbaiLam,
                             Idlquestion = item.Idlquestion,
-                            DapAnNguoiDungL = listAnswer?[i],
-                            CorrectL = item.DapAnDung
+                            DapAnNguoiDungL = a,
+                            IsCorrectL = isCorrect
                         };
                         _context.KetQuaLs.Add(listeningResult);
-                        if (listAnswer?[i] == item.DapAnDung && listAnswer?[i] != null)
+                        if (i < listAnswer?.Count)
                         {
-                            countListenCorrect++;
+                            if (listAnswer?[i] == item.DapAnDung && listAnswer?[i] != null)
+                            {
+                                countListenCorrect++;
+                            }
+                            else
+                            {
+                                countListenIncorrect++;
+                            }
                         }
                         else
                         {
@@ -181,12 +194,18 @@ namespace BEARLINGO.Controllers.Admin
                 {
                     foreach (var item in readingMark)
                     {
+                        bool isCorrect = false;
+                        string? a = (listAnswer!.Count - 1 < i) ? null : listAnswer[i];
+                        if (a == item.DapAnDung && a != null)
+                        {
+                            isCorrect = true;
+                        }
                         var readingResult = new KetQuaR
                         {
                             IdbaiLam = Info.IdbaiLam,
                             Idrquestion = item.Idrquestion,
-                            DapAnNguoiDungR = (listAnswer!.Count - 1 < i) ? null : listAnswer[i],
-                            CorrectR = item.DapAnDung
+                            DapAnNguoiDungR = a,
+                            IsCorrectR = isCorrect
                         };
                         _context.KetQuaRs.Add(readingResult);
                         if (i < listAnswer?.Count)
@@ -213,7 +232,7 @@ namespace BEARLINGO.Controllers.Admin
             infoCheck.SoCauDungL = countListenCorrect;
             infoCheck.SoCauDungR = countReadCorrect;
             _context.SaveChanges();
-            return Json(new { success = true, socauDungL = infoCheck.SoCauDungL, socauDungR = infoCheck.SoCauDungR ,idbailam = infoCheck.IdbaiLam, diemL = infoCheck.DiemL, diemR = infoCheck.DiemR, message = "Đã hoàn thành bài thi" });
+            return Json(new { success = true, socauDungL = infoCheck.SoCauDungL, socauDungR = infoCheck.SoCauDungR, idbailam = infoCheck.IdbaiLam, diemL = infoCheck.DiemL, diemR = infoCheck.DiemR, message = "Đã hoàn thành bài thi" });
         }
         public IActionResult ExamManage()
         {
@@ -268,17 +287,61 @@ namespace BEARLINGO.Controllers.Admin
         public IActionResult ExamDetail(int id)
         {
             int idUser = (int)HttpContext.Session.GetInt32("Id")!;
-
-            var listen = _context.KetQuaLs
-                                .Include(n => n.IdlquestionNavigation)
+            List<DetailListeningDTO> detailListeningDTOs = new List<DetailListeningDTO>();
+            List<DetailReadingDTO> detailReadingDTOs = new List<DetailReadingDTO>();
+            var listenList = _context.KetQuaLs
+                                .Include(n => n.IdlquestionNavigation).ThenInclude(n => n.IdaudioNavigation)
+                                .Include(n => n.IdlquestionNavigation).ThenInclude(n => n.IdpictureNavigation)
                                 .Where(n => n.IdbaiLam == id)
                                 .ToList();
-            var read = _context.KetQuaRs
-                                .Include(n => n.IdrquestionNavigation)
+            var readList = _context.KetQuaRs
+                                .Include(n => n.IdrquestionNavigation).ThenInclude(n => n.IdpictureNavigation)
                                 .Where(n => n.IdbaiLam == id)
                                 .ToList();
-            ViewBag.listening = listen;
-            ViewBag.reading = read;
+            var info = _context.BaiLams.FirstOrDefault(x => x.IdbaiLam == id);
+            foreach (var item in listenList)
+            {
+                var a = new DetailListeningDTO
+                {
+                    IDListening = item.IdlquestionNavigation.Idlquestion,
+                    NoiDung = item.IdlquestionNavigation.NoiDung,
+                    DapAn1 = item.IdlquestionNavigation.DapAn1,
+                    DapAn2 = item.IdlquestionNavigation.DapAn2,
+                    DapAn3 = item.IdlquestionNavigation.DapAn3,
+                    DapAn4 = item.IdlquestionNavigation.DapAn4,
+                    DapAnDung = item.IdlquestionNavigation.DapAnDung,
+                    GiaiThich = item.IdlquestionNavigation.GiaiThich,
+                    STT = item.IdlquestionNavigation.Stt,
+                    ListeningPart = "1",
+                    Audio = item.IdlquestionNavigation.IdaudioNavigation.TenFile,
+                    Picture = item.IdlquestionNavigation.IdpictureNavigation.TenFile,
+                    DapAnNguoiDungL = item.DapAnNguoiDungL
+                };
+                detailListeningDTOs.Add(a);
+            }
+            foreach (var item in readList)
+            {
+                var a = new DetailReadingDTO
+                {
+                    IDReading = item.IdrquestionNavigation.Idrquestion,
+                    NoiDung = item.IdrquestionNavigation.NoiDung,
+                    DapAn1 = item.IdrquestionNavigation.DapAn1,
+                    DapAn2 = item.IdrquestionNavigation.DapAn2,
+                    DapAn3 = item.IdrquestionNavigation.DapAn3,
+                    DapAn4 = item.IdrquestionNavigation.DapAn4,
+                    DapAnDung = item.IdrquestionNavigation.DapAnDung,
+                    GiaiThich = item.IdrquestionNavigation.GiaiThich,
+                    STT = item.IdrquestionNavigation.Stt,
+                    ReadingPart = "1",
+                    IdPicture = item.IdrquestionNavigation.Idpicture,
+                    Picture = item.IdrquestionNavigation.IdpictureNavigation.TenFile,
+                    DapAnNguoiDungR = item.DapAnNguoiDungR
+                };
+                detailReadingDTOs.Add(a);
+            }
+            ViewBag.listening = detailListeningDTOs;
+            ViewBag.reading = detailReadingDTOs;
+            ViewBag.info = info;
             return View();
         }
     }

@@ -27,9 +27,8 @@
                         <tr>
                             <th width="10"><input type="checkbox" id="all"></th>
                             <th width="50">ID</th>
-                            <th width="250">Tên đề thi</th>
-                            <th width="50">Thời gian</th>
-                            <th width="400">Nội dung đề thi</th>
+                            <th width="400">Tên đề thi</th>
+                            <th width="200">Thời gian</th>
                             <th width="100">Tên đề ETS</th>
                         </tr>
                     </thead>
@@ -42,7 +41,6 @@
                                 <td>#@item.IddeThi</td>
                                 <td>@item.TenDeThi</td>
                                 <td>@item.ThoiGian</td>
-                                <td>@item.NoiDungDeThi</td>
                                 <td>@item.IdetsNavigation.TenEts</td>
                                 <td class="table-td-center">
                                     <button class="btn btn-primary btn-sm trash" type="button" title="Xóa"
@@ -78,10 +76,6 @@
                                                     <div class="form-group col-md-6">
                                                         <label class="control-label">Thời gian</label>
                                                         <input class="form-control" name="title" type="text" required value="@item.ThoiGian">
-                                                    </div>
-                                                    <div class="form-group col-md-6">
-                                                        <label class="control-label">Nội dung đề thi</label>
-                                                        <input class="form-control" name="title" type="text" required value="@item.NoiDungDeThi">
                                                     </div>
                                                     <div class="form-group col-md-6">
                                                         <label class="control-label">Tên đề ETS</label>

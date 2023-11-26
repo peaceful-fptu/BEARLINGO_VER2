@@ -196,7 +196,7 @@ public partial class BearlingoContext : DbContext
             entity.ToTable("KetQuaL");
 
             entity.Property(e => e.IdketQuaL).HasColumnName("IDKetQuaL");
-            entity.Property(e => e.CorrectL).HasMaxLength(50);
+     //       entity.Property(e => e.CorrectL).HasMaxLength(50);
             entity.Property(e => e.IdbaiLam).HasColumnName("IDBaiLam");
             entity.Property(e => e.Idlquestion).HasColumnName("IDLQuestion");
         //    entity.Property(e => e.NgayThi).HasColumnType("date");
@@ -219,7 +219,7 @@ public partial class BearlingoContext : DbContext
             entity.ToTable("KetQuaR");
 
             entity.Property(e => e.IdketQuaR).HasColumnName("IDKetQuaR");
-            entity.Property(e => e.CorrectR).HasMaxLength(50);
+        //    entity.Property(e => e.CorrectR).HasMaxLength(50);
             entity.Property(e => e.IdbaiLam).HasColumnName("IDBaiLam");
             entity.Property(e => e.Idrquestion).HasColumnName("IDRQuestion");
          //   entity.Property(e => e.NgayThi).HasColumnType("date");

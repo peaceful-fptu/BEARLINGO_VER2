@@ -12,250 +12,222 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <style>
 
-        /* BASIC */
-
-        html {
-            background-color: #56baed;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
         }
 
         body {
-            font-family: "Poppins", sans-serif;
-            height: 100vh;
-        }
-
-        a {
-            color: #92badd;
-            display: inline-block;
-            text-decoration: none;
-            font-weight: 400;
-        }
-
-        h2 {
-            text-align: center;
-            font-size: 16px;
-            font-weight: 600;
-            text-transform: uppercase;
-            display: inline-block;
-            margin: 40px 8px 10px 8px;
-            color: #cccccc;
-        }
-
-
-
-        /* STRUCTURE */
-
-        .wrapper {
             display: flex;
-            align-items: center;
-            flex-direction: column;
             justify-content: center;
-            width: 100%;
-            min-height: 100%;
-            padding: 20px;
+            align-items: center;
+            min-height: 100vh;
+            background: #23242a;
         }
 
-        #formContent {
-            -webkit-border-radius: 10px 10px 10px 10px;
-            border-radius: 10px 10px 10px 10px;
-            background: #fff;
-            padding: 30px;
-            width: 90%;
-            max-width: 450px;
+        .box {
             position: relative;
-            padding: 0px;
-            -webkit-box-shadow: 0 30px 60px 0 rgba(0,0,0,0.3);
-            box-shadow: 0 30px 60px 0 rgba(0,0,0,0.3);
-            text-align: center;
+            width: 400px;
+            height: 470px;
+            background: #1c1c1c;
+            border-radius: 18px;
+            overflow: hidden;
         }
 
-        #formFooter {
-            background-color: #f6f6f6;
-            border-top: 1px solid #dce8f1;
-            padding: 25px;
-            text-align: center;
-            -webkit-border-radius: 0 0 10px 10px;
-            border-radius: 0 0 10px 10px;
-        }
-
-
-
-        /* TABS */
-
-        h2.inactive {
-            color: #cccccc;
-        }
-
-        h2.active {
-            color: #0d0d0d;
-            border-bottom: 2px solid #5fbae9;
-        }
-
-
-
-        /* FORM TYPOGRAPHY*/
-
-        input[type=button], input[type=submit], input[type=reset] {
-            background-color: #56baed;
-            border: none;
-            color: white;
-            padding: 15px 80px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            text-transform: uppercase;
-            font-size: 13px;
-            -webkit-box-shadow: 0 10px 30px 0 rgba(95,186,233,0.4);
-            box-shadow: 0 10px 30px 0 rgba(95,186,233,0.4);
-            -webkit-border-radius: 5px 5px 5px 5px;
-            border-radius: 5px 5px 5px 5px;
-            margin: 5px 20px 40px 20px;
-            -webkit-transition: all 0.3s ease-in-out;
-            -moz-transition: all 0.3s ease-in-out;
-            -o-transition: all 0.3s ease-in-out;
-            transition: all 0.3s ease-in-out;
-        }
-
-            input[type=button]:hover, input[type=submit]:hover, input[type=reset]:hover {
-                background-color: #39ace7;
+            .box::before {
+                content: "";
+                position: absolute;
+                width: 4000px;
+                height: 470px;
+                top: -50%;
+                left: -50%;
+                background: linear-gradient( 0deg, transparent, transparent, #45f3ff, #45f3ff, #45f3ff );
+                z-index: 1;
+                transform-origin: bottom right;
+                animation: animate 6s linear infinite;
             }
 
-            input[type=button]:active, input[type=submit]:active, input[type=reset]:active {
-                -moz-transform: scale(0.95);
-                -webkit-transform: scale(0.95);
-                -o-transform: scale(0.95);
-                -ms-transform: scale(0.95);
-                transform: scale(0.95);
+            .box::after {
+                content: "";
+                position: absolute;
+                width: 400px;
+                height: 470px;
+                top: -50%;
+                left: -50%;
+                background: linear-gradient( 0deg, transparent, transparent, #ffff00, #ffff00, #ffff00 );
+                z-index: 1;
+                transform-origin: bottom right;
+                animation: animate 6s linear infinite;
+                animation-delay: -3s;
             }
 
-        input[type=text], input[type=password] {
-            background-color: #f6f6f6;
-            border: none;
-            color: #0d0d0d;
-            padding: 15px 32px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            margin: 5px;
-            width: 85%;
-            border: 2px solid #f6f6f6;
-            -webkit-transition: all 0.5s ease-in-out;
-            -moz-transition: all 0.5s ease-in-out;
-            -o-transition: all 0.5s ease-in-out;
-            transition: all 0.5s ease-in-out;
-            -webkit-border-radius: 5px 5px 5px 5px;
-            border-radius: 5px 5px 5px 5px;
+        .borderLine {
+            position: absolute;
+            top: 0;
+            inset: 0;
         }
 
-            input[type=text]:focus {
-                background-color: #fff;
-                border-bottom: 2px solid #5fbae9;
+            .borderLine::before {
+                content: "";
+                position: absolute;
+                width: 400px;
+                height: 470px;
+                top: -50%;
+                left: -50%;
+                background: linear-gradient( 0deg, transparent, transparent, #fc0f8d, #fc0f8d, #fc0f8d );
+                z-index: 1;
+                transform-origin: bottom right;
+                animation: animate 6s linear infinite;
             }
 
+        @@keyframes animate {
+            0% {
+                transform: rotate(0deg);
+            }
 
-
-        /* ANIMATIONS */
-
-        /* Simple CSS3 Fade-in-down Animation */
-        .fadeInDown {
-            -webkit-animation-name: fadeInDown;
-            animation-name: fadeInDown;
-            -webkit-animation-duration: 1s;
-            animation-duration: 1s;
-            -webkit-animation-fill-mode: both;
-            animation-fill-mode: both;
-        } 
-        .fadeIn {
-            opacity: 0;
-            -webkit-animation: fadeIn ease-in 1;
-            -moz-animation: fadeIn ease-in 1;
-            animation: fadeIn ease-in 1;
-            -webkit-animation-fill-mode: forwards;
-            -moz-animation-fill-mode: forwards;
-            animation-fill-mode: forwards;
-            -webkit-animation-duration: 1s;
-            -moz-animation-duration: 1s;
-            animation-duration: 1s;
+            100% {
+                transform: rotate(360deg);
+            }
         }
 
-            .fadeIn.first {
-                -webkit-animation-delay: 0.4s;
-                -moz-animation-delay: 0.4s;
-                animation-delay: 0.4s;
-            }
-
-            .fadeIn.second {
-                -webkit-animation-delay: 0.6s;
-                -moz-animation-delay: 0.6s;
-                animation-delay: 0.6s;
-            }
-
-            .fadeIn.third {
-                -webkit-animation-delay: 0.8s;
-                -moz-animation-delay: 0.8s;
-                animation-delay: 0.8s;
-            }
-
-            .fadeIn.fourth {
-                -webkit-animation-delay: 1s;
-                -moz-animation-delay: 1s;
-                animation-delay: 1s;
-            }
-
-        /* Simple CSS3 Fade-in Animation */
-        .underlineHover:after {
-            display: block;
-            left: 0;
-            bottom: -10px;
-            width: 0;
-            height: 2px;
-            background-color: #56baed;
-            content: "";
-            transition: width 0.2s;
+        .box form {
+            position: absolute;
+            inset: 4px;
+            background: #222;
+            padding: 50px 40px;
+            border-radius: 18px;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
         }
 
-        .underlineHover:hover {
-            color: #0d0d0d;
-        }
-
-            .underlineHover:hover:after {
-                width: 100%;
+            .box form h2 {
+                color: #fff;
+                font-weight: 500;
+                text-align: center;
+                letter-spacing: 0.1em;
             }
 
+            .box form .inputBox {
+                position: relative;
+                width: 300px;
+                margin-top: 35px;
+            }
 
+                .box form .inputBox input {
+                    position: relative;
+                    width: 100%;
+                    padding: 20px 10px 10px;
+                    background: transparent;
+                    outline: none;
+                    border: none;
+                    box-shadow: none;
+                    color: #23242a;
+                    font-size: 1em;
+                    letter-spacing: 0.05em;
+                    transition: 0.5s;
+                    z-index: 10;
+                }
 
-        /* OTHERS */
+                .box form .inputBox span {
+                    position: absolute;
+                    left: 0;
+                    padding: 20px 0px 10px;
+                    pointer-events: none;
+                    color: #8f8f8f;
+                    font-size: 1em;
+                    letter-spacing: 0.05em;
+                    transition: 0.5s;
+                }
 
-        *:focus {
-            outline: none;
-        }
+                .box form .inputBox input:valid ~ span,
+                .box form .inputBox input:focus ~ span {
+                    color: #fff;
+                    font-size: 0.75em;
+                    transform: translateY(-34px);
+                }
 
-        #icon {
-            width: 60%;
-        }
+                .box form .inputBox i {
+                    position: absolute;
+                    left: 0;
+                    bottom: 0;
+                    width: 100%;
+                    height: 2px;
+                    background: #fff;
+                    border-radius: 7px;
+                    overflow: hidden;
+                    transition: 0.5s;
+                    pointer-events: none;
+                }
+
+                .box form .inputBox input:valid ~ i,
+                .box form .inputBox input:focus ~ i {
+                    height: 44px;
+                }
+
+            .box form .links {
+                display: flex;
+                justify-content: space-between;
+                margin-top: 20px;
+            }
+
+                .box form .links a {
+                    margin: 15px 12px 20px 0;
+                    font-size: 0.75em;
+                    color: #8f8f8f;
+                    text-decoration: none;
+                }
+
+                    .box form .links a:hover,
+                    .box form .links a:nth-child(2) {
+                        color: #fff;
+                    }
+
+            .box form input[type="submit"] {
+                border: none;
+                outline: none;
+                padding: 9px 25px;
+                background: #fff;
+                cursor: pointer;
+                font-size: 0.9em;
+                border-radius: 7px;
+                font-weight: 600;
+                width: 100px;
+                margin-top: 10px;
+                transition: 0.6s;
+            }
+
+                .box form input[type="submit"]:hover {
+                    background-color: #31e1f7;
+                }
+
+                .box form input[type="submit"]:active {
+                    opacity: 0.8;
+                }
 
     </style>
 </head>
 <body>
-    <div class="wrapper fadeInDown">
-        <div id="formContent">
-            <!-- Tabs Titles -->
-            <!-- Icon -->
-            <div class="fadeIn first">
-                <img class="img-profile rounded-circle" style="height:50px;width:50px"
-                     src="images/undraw_profile.svg">
+    <div class="box">
+        <span class="borderLine"></span>
+        <form method="post" asp-controller="AdminLogin" asp-action="Login">
+            <h2>Admin Login</h2>
+            <div class="inputBox">
+                <input type="text" required="required" name="Username">
+                <span>Username</span>
+                <i></i>
             </div>
-
-            <!-- Login Form -->
-            <form method="post" asp-controller="AdminLogin" asp-action="Login">
-                <input type="text" id="login" class="fadeIn second" name="Username" placeholder="username">
-                <br />
-                <input type="password" id="password" class="fadeIn third" name="Password" placeholder="password">
-                <input type="submit" class="fadeIn fourth" value="Login">
-            </form>
-
-            <!-- Remind Passowrd -->
-        </div>
+            <div class="inputBox">
+                <input type="password" required="required" name="Password">
+                <span>Password</span>
+                <i></i>
+            </div>
+            <div style="display: flex; justify-content:center; margin-top: 30px">
+                <input type="submit" value="Login">
+            </div>
+        </form>
     </div>
 </body>
 </html>

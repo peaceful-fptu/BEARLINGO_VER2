@@ -41,6 +41,98 @@
             color: #dc3545;
         }
         /* Màu đỏ là màu của Bootstrap cho "danger" */
+        /* Reset margins & paddings */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Body */
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+            line-height: 1.5;
+            color: #333;
+            background: #f5f5f5;
+        }
+
+        /* Header */
+        .header {
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0,0,0,.1);
+            position: fixed;
+            left: 0;
+            right: 0;
+            z-index: 100;
+        }
+
+        .navbar {
+            padding: 20px 0;
+        }
+
+        .navbar-brand {
+            font-size: 32px;
+            font-weight: bold;
+            color: #0066ff;
+        }
+
+        .nav-link {
+            font-size: 18px;
+            font-weight: 500;
+            color: #333;
+            transition: 0.3s ease;
+        }
+
+            .nav-link:hover {
+                color: #0066ff;
+            }
+
+        /* Section */
+        .section-padding {
+            padding: 50px 0;
+        }
+
+        .card {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            padding: 30px;
+        }
+
+        .card-title {
+            font-size: 24px;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        h4, h5 {
+            margin: 20px 0;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: #0066ff;
+            color: #fff;
+            text-align: center;
+            padding: 30px;
+        }
+
+            .footer p {
+                margin-bottom: 0;
+            }
+
+        /* Responsive */
+        @@media (max-width: 768px) {
+            .navbar-brand {
+                font-size: 24px;
+            }
+
+            .nav-link {
+                font-size: 16px;
+            }
+        }
     </style>
 </head>
 
@@ -59,91 +151,121 @@
                         <div class="card">
                             <div class="card-body">
                                 <h2 class="card-title text-center">Chi tiết bài làm</h2>
-
-                                <h2>Phần nghe</h2>
+                                @{
+                                    var info = ViewBag.info;
+                                }
+                                <h4>Phần nghe</h4>
+                                <h5>Điểm: @info.DiemL</h5>
+                                <h5>Số câu đúng: @info.SoCauDungL/100</h5>
                                 <div class="row">
-                                    <div class="col-md-3">
-                                        @for (int i = 0; i < ViewBag.listening.Count && i < 25; i++)
-                                        {
-                                            var question = ViewBag.listening[i];
+                                    @for (int i = 0; i < ViewBag.listening.Count; i++)
+                                    {
+                                        var question = ViewBag.listening[i];
+                                        <div class="col-md-3">
                                             <span>Câu hỏi @(i + 1):</span>
-                                            <i class="fas @(question.DapAnNguoiDungL == question.CorrectL ? "fa-check-circle correct" : "fa-times-circle incorrect")"></i>
-                                            <br />
-                                        }
-                                    </div>
-
-                                    <div class="col-md-3">
-                                        @for (int i = 25; i < ViewBag.listening.Count && i < 50; i++)
-                                        {
-                                            var question = ViewBag.listening[i];
-                                            <span>Câu hỏi @(i + 1):</span>
-                                            <i class="fas @(question.DapAnNguoiDungL == question.CorrectL ? "fa-check-circle correct" : "fa-times-circle incorrect")"></i>
-                                            <br />
-                                        }
-                                    </div>
-
-                                    <div class="col-md-3">
-                                        @for (int i = 50; i < ViewBag.listening.Count && i < 75; i++)
-                                        {
-                                            var question = ViewBag.listening[i];
-                                            <span>Câu hỏi @(i + 1):</span>
-                                            <i class="fas @(question.DapAnNguoiDungL == question.CorrectL ? "fa-check-circle correct" : "fa-times-circle incorrect")"></i>
-                                            <br />
-                                        }
-                                    </div>
-
-                                    <div class="col-md-3">
-                                        @for (int i = 75; i < ViewBag.listening.Count && i < 100; i++)
-                                        {
-                                            var question = ViewBag.listening[i];
-                                            <span>Câu hỏi @(i + 1):</span>
-                                            <i class="fas @(question.DapAnNguoiDungL == question.CorrectL ? "fa-check-circle correct" : "fa-times-circle incorrect")"></i>
-                                            <br />
-                                        }
-                                    </div>
+                                            <i class="fas @(question.DapAnNguoiDungL == question.DapAnDung ? "fa-check-circle correct" : "fa-times-circle incorrect")"></i>
+                                            <a href="#" data-toggle="modal" data-target="#exampleModal_@(question.IDListening)">
+                                                <i class="fas fa-eye"></i>
+                                            </a>
+                                        </div>
+                                        <div class="modal fade bd-example-modal-lg" id="exampleModal_@(question.IDListening)" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog modal-lg" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalLabel">Đáp án chi tiết câu @(i + 1)</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div>
+                                                        <audio controls>
+                                                            <source src="/audio/@question.Audio" type="audio/mpeg">
+                                                        </audio>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+                                                                @if(question.Picture != null)
+                                                                {
+                                                                    <img src="/images/@question.Picture" style="width: 100%; height: 300px; border-radius: 10px; border: 1px solid black; box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.2);" />
+                                                                }
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <p>@question.NoiDung</p>
+                                                                <p>A. @question.DapAn1</p>
+                                                                <p>B. @question.DapAn2</p>
+                                                                <p>C. @question.DapAn3</p>
+                                                                <p>D. @question.DapAn4</p>
+                                                                <p>Đáp án của bạn: @question.DapAnNguoiDungL</p>
+                                                                <p>Đáp án đúng: @question.DapAnDung</p>
+                                                                <p>Giải thích: @question.GiaiThich</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <script>
+                                            $('#exampleModal_@(question.IDListening)').on('hidden.bs.modal', function () {
+                                                $(this).find('audio')[0].pause();
+                                            })
+                                        </script>
+                                    }
                                 </div>
 
-                                <h2>Phần đọc</h2>
+                                <h4>Phần đọc</h4>
+                                <h5>Điểm: @info.DiemR</h5>
+                                <h5>Số câu đúng: @info.SoCauDungR/100</h5>
                                 <div class="row">
-                                    <div class="col-md-3">
-                                        @for (int i = 0; i < ViewBag.reading.Count && i < 25; i++)
-                                        {
-                                            var question = ViewBag.reading[i];
+                                    @for (int i = 0; i < ViewBag.reading.Count; i++)
+                                    {
+                                        var question = ViewBag.reading[i];
+                                        <div class="col-md-3">
                                             <span>Câu hỏi @(i + 101):</span>
-                                            <i class="fas @(question.DapAnNguoiDungR == question.CorrectR ? "fa-check-circle correct" : "fa-times-circle incorrect")"></i>
-                                            <br />
-                                        }
-                                    </div>
-
-                                    <div class="col-md-3">
-                                        @for (int i = 25; i < ViewBag.reading.Count && i < 50; i++)
-                                        {
-                                            var question = ViewBag.reading[i];
-                                            <span>Câu hỏi @(i + 101):</span>
-                                            <i class="fas @(question.DapAnNguoiDungR == question.CorrectR ? "fa-check-circle correct" : "fa-times-circle incorrect")"></i>
-                                            <br />
-                                        }
-                                    </div>
-
-                                    <div class="col-md-3">
-                                        @for (int i = 50; i < ViewBag.reading.Count && i < 75; i++)
-                                        {
-                                            var question = ViewBag.reading[i];
-                                            <span>Câu hỏi @(i + 101):</span>
-                                            <i class="fas @(question.DapAnNguoiDungR == question.CorrectR ? "fa-check-circle correct" : "fa-times-circle incorrect")"></i>
-                                            <br />
-                                        }
-                                    </div>
-
-                                    <div class="col-md-3">
-                                        @for (int i = 75; i < ViewBag.reading.Count && i < 100; i++)
-                                        {
-                                            var question = ViewBag.reading[i];
-                                            <span>Câu hỏi @(i + 101):</span>
-                                            <i class="fas @(question.DapAnNguoiDungR == question.CorrectR ? "fa-check-circle correct" : "fa-times-circle incorrect")"></i>
-                                            <br />
-                                        }
-                                    </div>
+                                            <i class="fas @(question.DapAnNguoiDungR == question.DapAnDung ? "fa-check-circle correct" : "fa-times-circle incorrect")"></i>
+                                            <a href="#" data-toggle="modal" data-target="#modalReading_@(question.IDReading)">
+                                                <i class="fas fa-eye"></i>
+                                            </a>
+                                        </div>
+                                        <div class="modal fade bd-example-modal-lg" id="modalReading_@(question.IDReading)" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog modal-lg" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalLabel">Đáp án chi tiết câu @(i + 101)</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+                                                                @if (question.Picture != null)
+                                                                {
+                                                                    <img src="/images/@question.Picture" style="width: 100%; height: 300px; border-radius: 10px; border: 1px solid black; box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.2);" />
+                                                                }
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <p>@question.NoiDung</p>
+                                                                <p>A. @question.DapAn1</p>
+                                                                <p>B. @question.DapAn2</p>
+                                                                <p>C. @question.DapAn3</p>
+                                                                <p>D. @question.DapAn4</p>
+                                                                <p>Đáp án của bạn: @question.DapAnNguoiDungR</p>
+                                                                <p>Đáp án đúng: @question.DapAnDung</p>
+                                                                <p>Giải thích: @question.GiaiThich</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
                                 </div>
 
                             </div>
@@ -163,6 +285,5 @@
     <script src="~/js/jquery.sticky.js"></script>
     <script src="~/js/click-scroll.js"></script>
     <script src="~/js/custom.js"></script>
-
 </body>
 </html>

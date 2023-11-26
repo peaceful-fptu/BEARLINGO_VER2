@@ -13,7 +13,7 @@ public partial class KetQuaR
 
     public int IdbaiLam { get; set; }
 
-    public string? CorrectR { get; set; }
+    public bool IsCorrectR { get; set; }
 
     public virtual BaiLam IdbaiLamNavigation { get; set; } = null!;
 
