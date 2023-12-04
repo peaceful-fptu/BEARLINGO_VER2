@@ -8,6 +8,7 @@ namespace BEARLINGO.Controllers.Authentication
         {
             HttpContext.Session.Remove("User");
             HttpContext.Session.Remove("UserName");
+            HttpContext.Session.Remove("Id");
             return RedirectToAction("Index","Home");
         }
     }

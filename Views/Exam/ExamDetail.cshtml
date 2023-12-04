@@ -133,6 +133,52 @@
                 font-size: 16px;
             }
         }
+        /* Style cho modal */
+
+        .modal-content {
+            background-color: #f2f2f2;
+            border-radius: 10px;
+        }
+
+        .modal-header {
+            background-color: #34568b;
+            color: #fff;
+        }
+
+        .modal-title {
+            color: #fff;
+        }
+
+        /* Style nội dung */
+        .modal-body {
+            text-align: left;
+            padding: 30px;
+        }
+
+            .modal-body p {
+                color: #333;
+                margin-bottom: 10px;
+            }
+
+            .modal-body img {
+                border-radius: 10px;
+                box-shadow: 0 4px 8px rgba(0,0,0,0.4);
+                max-width: 100%;
+            }
+
+        /* Style footer */
+        .modal-footer {
+            background-color: #f2f2f2;
+            border-top: 1px solid #ccc;
+        }
+
+            .modal-footer button {
+                background-color: #34568b;
+                color: #fff;
+                border: none;
+                border-radius: 4px;
+                padding: 10px 20px;
+            }
     </style>
 </head>
 
@@ -168,8 +214,8 @@
                                                 <i class="fas fa-eye"></i>
                                             </a>
                                         </div>
-                                        <div class="modal fade bd-example-modal-lg" id="exampleModal_@(question.IDListening)" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                            <div class="modal-dialog modal-lg" role="document">
+                                        <div class="modal fade bd-example-modal-xl" id="exampleModal_@(question.IDListening)" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
                                                         <h5 class="modal-title" id="exampleModalLabel">Đáp án chi tiết câu @(i + 1)</h5>
@@ -191,12 +237,12 @@
                                                                 }
                                                             </div>
                                                             <div class="col-md-6">
-                                                                <p>@question.NoiDung</p>
+                                                                <h3>@question.NoiDung</h3>
                                                                 <p>A. @question.DapAn1</p>
                                                                 <p>B. @question.DapAn2</p>
                                                                 <p>C. @question.DapAn3</p>
                                                                 <p>D. @question.DapAn4</p>
-                                                                <p>Đáp án của bạn: @question.DapAnNguoiDungL</p>
+                                                                <p style="margin-top: 50px !important">Đáp án của bạn: @question.DapAnNguoiDungL</p>
                                                                 <p>Đáp án đúng: @question.DapAnDung</p>
                                                                 <p>Giải thích: @question.GiaiThich</p>
                                                             </div>
@@ -230,8 +276,8 @@
                                                 <i class="fas fa-eye"></i>
                                             </a>
                                         </div>
-                                        <div class="modal fade bd-example-modal-lg" id="modalReading_@(question.IDReading)" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                            <div class="modal-dialog modal-lg" role="document">
+                                        <div class="modal fade bd-example-modal-xl" id="modalReading_@(question.IDReading)" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
                                                         <h5 class="modal-title" id="exampleModalLabel">Đáp án chi tiết câu @(i + 101)</h5>
@@ -248,12 +294,12 @@
                                                                 }
                                                             </div>
                                                             <div class="col-md-6">
-                                                                <p>@question.NoiDung</p>
+                                                                <h3>@question.NoiDung</h3>
                                                                 <p>A. @question.DapAn1</p>
                                                                 <p>B. @question.DapAn2</p>
                                                                 <p>C. @question.DapAn3</p>
                                                                 <p>D. @question.DapAn4</p>
-                                                                <p>Đáp án của bạn: @question.DapAnNguoiDungR</p>
+                                                                <p style="margin-top: 50px !important">Đáp án của bạn: @question.DapAnNguoiDungR</p>
                                                                 <p>Đáp án đúng: @question.DapAnDung</p>
                                                                 <p>Giải thích: @question.GiaiThich</p>
                                                             </div>

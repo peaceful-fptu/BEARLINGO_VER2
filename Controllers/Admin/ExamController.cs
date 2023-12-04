@@ -18,15 +18,31 @@ namespace BEARLINGO.Controllers.Admin
             _context = new BearlingoContext();
         }
 
-        public IActionResult Exam()
+        public IActionResult Exam(int idEts)
         {
-            var listDeThi = _context.DeThis.ToList();
-            ViewBag.ListDeThi = listDeThi;
-            return View();
+            if (idEts == 0)
+            {
+                var listDeThi = _context.DeThis.ToList();
+                var listETS = _context.Ets.ToList();
+                ViewBag.ListDeThi = listDeThi;
+                ViewBag.ListETS = listETS;
+                return View();
+            }
+            else
+            {
+                var listDethi = _context.DeThis.Where(e => e.Idets == idEts).ToList();
+                var listETS = _context.Ets.ToList();
+                ViewBag.ListDeThi = listDethi;
+                ViewBag.ListETS = listETS;
+                return View();
+            }
         }
-
         public IActionResult CreateExam(int id)
         {
+            if (HttpContext.Session.GetString("Role") != "User")
+            {
+                return RedirectToAction("Index", "Login");
+            }
             var deThiPart1 = GetPartListening("Part1", id);
             ViewBag.deThiPart1 = deThiPart1;
             var deThiPart2 = GetPartListening("Part2", id);

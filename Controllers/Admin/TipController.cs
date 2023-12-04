@@ -20,21 +20,17 @@ namespace BEARLINGO.Controllers.Admin
         {
             int totalPages = 0;
             int pageSize = 4;
-            List<Tip> list = _context.Tips.ToList();
-            totalPages = (list.Count() % pageSize) > 0 ? (list.Count() / pageSize) + 1 : (list.Count() / pageSize);
-            if (!string.IsNullOrEmpty(num))
-            {
-                list = list.Skip(pageSize * (Convert.ToInt32(num) - 1)).Take(pageSize).ToList();
-            }
-            else
-            {
-                num = "1";
-                list = list.Skip(pageSize * (Convert.ToInt32(num) - 1)).Take(pageSize).ToList();
-            }
-            ViewBag.tips = list;
-            ViewBag.totalPage = totalPages;
+
+            List<Tip> allTips = _context.Tips.ToList();
+            totalPages = (allTips.Count() % pageSize) > 0 ? (allTips.Count() / pageSize) + 1 : (allTips.Count() / pageSize);
+            int currentPage = string.IsNullOrEmpty(num) ? 1 : Convert.ToInt32(num);
+            List<Tip> tipsForCurrentPage = allTips.Skip(pageSize * (currentPage - 1)).Take(pageSize).ToList();
+            ViewBag.tips = tipsForCurrentPage;
+            ViewBag.currentPage = currentPage;
+            ViewBag.totalPages = totalPages;
             return View("~/Views/Tip/Tip.cshtml");
         }
+
         public IActionResult tipManage()
         {
             var tips = _context.Tips.ToList();

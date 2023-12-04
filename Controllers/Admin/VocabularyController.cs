@@ -21,21 +21,16 @@ namespace BEARLINGO.Controllers.Admin
         public IActionResult Vocabulary(string num)
         {
             int totalPages = 0;
-            int pageSize = 10;
-            var listChuDe = GetChuDe();
-            totalPages = (listChuDe.Count() % pageSize) > 0 ? (listChuDe.Count() / pageSize) + 1 : (listChuDe.Count() / pageSize);
-            if (!string.IsNullOrEmpty(num))
-            {
-                listChuDe = GetChuDe().Skip(pageSize * (Convert.ToInt32(num) - 1)).Take(pageSize).ToList();
-            }
-            else
-            {
-                num = "1";
-                listChuDe = GetChuDe().Skip(pageSize * (Convert.ToInt32(num) - 1)).Take(pageSize).ToList();
-            }
-            ViewData["listChuDeTuVung"] = listChuDe;
-            ViewData["totalPages"] = totalPages;
-            return View();
+            int pageSize = 4;
+
+            List<ChuDeTuVung> allVocabularys = _context.ChuDeTuVungs.ToList();
+            totalPages = (allVocabularys.Count() % pageSize) > 0 ? (allVocabularys.Count() / pageSize) + 1 : (allVocabularys.Count() / pageSize);
+            int currentPage = string.IsNullOrEmpty(num) ? 1 : Convert.ToInt32(num);
+            List<ChuDeTuVung> vocabsForCurrentPage = allVocabularys.Skip(pageSize * (currentPage - 1)).Take(pageSize).ToList();
+            ViewBag.vocabs = vocabsForCurrentPage;
+            ViewBag.currentPage = currentPage;
+            ViewBag.totalPages = totalPages;
+            return View("~/Views/Vocabulary/Vocabulary.cshtml");
         }
 
         [HttpGet]
@@ -124,25 +119,24 @@ namespace BEARLINGO.Controllers.Admin
             ViewBag.listNP = chuDeNguPhaps;
             return View("~/Views/Vocabulary/AddVocabulary.cshtml");
         }
-        /*[Authorize(Policy = Roles.Admin)]*/
         [HttpPost]
-        public IActionResult AddTuVung(string tuVung1, string phatAm, string loaiTu, string nghiaTuVung, string viDuTuVung, int idChuDeTuVung)
+        public IActionResult AddVocab(string tuVung1, string phatAm, string loaiTu, string nghiaTuVung, string viDuTuVung, int idChuDeTuVung)
         {
             try
             {
-                String sql = "INSERT INTO [dbo].[TuVung]([TuVung],[PhatAm],[LoaiTu],[NghiaTuVung],[ViDuTuVung],[IDChuDeTuVung]) VALUES ('" + tuVung1 + "', N'" + phatAm + "', N'" + loaiTu + "', N'" + nghiaTuVung + "', N'" + viDuTuVung + "', '" + idChuDeTuVung + "')";
+                nghiaTuVung = nghiaTuVung.Replace("'", "''");
+                viDuTuVung = viDuTuVung.Replace("'", "''");
+                String sql = "INSERT INTO [dbo].[TuVung]([TuVung],[PhatAm],[LoaiTu],[NghiaTuVung],[ViDuTuVung],[IDChuDeTuVung]) VALUES ('" + tuVung1 + "', N'" + phatAm + "', N'" + loaiTu + "', N'" + nghiaTuVung + "', N'" + viDuTuVung + "', " + idChuDeTuVung + ")";
                 _context.Database.ExecuteSqlRaw(sql);
-                return RedirectToAction("getTuVungs", "Dashboard");
+                _context.SaveChanges();
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }
-
-            return View();
+            return RedirectToAction("getTuVungs", "Dashboard");
         }
 
-        [Authorize(Policy = Roles.Admin)]
         [HttpGet]
         public IActionResult DeleteChuDeTuVung(int idChuDeTuVung)
         {
@@ -180,8 +174,6 @@ namespace BEARLINGO.Controllers.Admin
                 return View();
             }
         }
-
-        [Authorize(Policy = Roles.Admin)]
         [HttpGet]
         public IActionResult DeleteTuVung(int idTuVung)
         {
@@ -204,7 +196,6 @@ namespace BEARLINGO.Controllers.Admin
             return View();
         }
 
-        [Authorize(Policy = Roles.Admin)]
         [HttpPost]
         public IActionResult UpdateChuDeTuVung(int idChuDeTuVung, string chuDe, int stt, int idQtv)
         {

@@ -21,19 +21,14 @@ namespace BEARLINGO.Controllers.Admin
         {
             int totalPages = 0;
             int pageSize = 4;
-            List<Blog> list = _context.Blogs.ToList();
-            totalPages = (list.Count() % pageSize) > 0 ? (list.Count() / pageSize) + 1 : (list.Count() / pageSize);
-            if (!string.IsNullOrEmpty(num))
-            {
-                list = list.Skip(pageSize * (Convert.ToInt32(num) - 1)).Take(pageSize).ToList();
-            }
-            else
-            {
-                num = "1";
-                list = list.Skip(pageSize * (Convert.ToInt32(num) - 1)).Take(pageSize).ToList();
-            }
-            ViewBag.blogs = list;
-            ViewBag.totalPage = totalPages;
+
+            List<Blog> allBlogs = _context.Blogs.ToList();
+            totalPages = (allBlogs.Count() % pageSize) > 0 ? (allBlogs.Count() / pageSize) + 1 : (allBlogs.Count() / pageSize);
+            int currentPage = string.IsNullOrEmpty(num) ? 1 : Convert.ToInt32(num);
+            List<Blog> blogsForCurrentPage = allBlogs.Skip(pageSize * (currentPage - 1)).Take(pageSize).ToList();
+            ViewBag.blogs = blogsForCurrentPage;
+            ViewBag.currentPage = currentPage;
+            ViewBag.totalPages = totalPages;
             return View("~/Views/Blog/Blogs.cshtml");
         }
 

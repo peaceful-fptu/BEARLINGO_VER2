@@ -19,26 +19,19 @@ namespace BEARLINGO.Controllers.Admin
             _context = new BearlingoContext();
         }
 
-        [HttpGet]
         public IActionResult Grammar(string num)
         {
             int totalPages = 0;
-            int pageSize = 10;
-            var listChuDe = GetChuDe();
-            totalPages = (listChuDe.Count() % pageSize) > 0 ? (listChuDe.Count() / pageSize) + 1 : (listChuDe.Count() / pageSize);
-            if (!string.IsNullOrEmpty(num))
-            {
-                listChuDe = GetChuDe().Skip(pageSize * (Convert.ToInt32(num) - 1)).Take(pageSize).ToList();
-            }
-            else
-            {
-                num = "1";
-                listChuDe = GetChuDe().Skip(pageSize * (Convert.ToInt32(num) - 1)).Take(pageSize).ToList();
-            }
+            int pageSize = 4;
 
-            ViewData["listChuDeNguPhap"] = listChuDe;
-            ViewData["totalPages"] = totalPages;
-            return View();
+            List<ChuDeNguPhap> allGrammars = _context.ChuDeNguPhaps.ToList();
+            totalPages = (allGrammars.Count() % pageSize) > 0 ? (allGrammars.Count() / pageSize) + 1 : (allGrammars.Count() / pageSize);
+            int currentPage = string.IsNullOrEmpty(num) ? 1 : Convert.ToInt32(num);
+            List<ChuDeNguPhap> grammarsForCurrentPage = allGrammars.Skip(pageSize * (currentPage - 1)).Take(pageSize).ToList();
+            ViewBag.grammars = grammarsForCurrentPage;
+            ViewBag.currentPage = currentPage;
+            ViewBag.totalPages = totalPages;
+            return View("~/Views/Grammar/Grammar.cshtml");
         }
 
         [HttpGet]

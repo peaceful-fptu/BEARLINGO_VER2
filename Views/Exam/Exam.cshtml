@@ -53,26 +53,48 @@
     @Html.Partial("Navbar")
     <main>
         <div class="container">
-            <div>
-                <div class="col-12 text-center">
-                    <h2 class="mb-4" style="color: darkcyan; margin-top: 100px">Danh sách đề thi</h2>
-                </div>
-            </div>
             <div class="row">
-                @foreach (var item in ViewBag.ListDeThi)
-                {
-                    <div class="col-md-3">
-                        <div class="card" style="margin-bottom: 20px">
-                            <h2>Tên đề thi: @item.TenDeThi</h2>
-                            <p>Thời gian: 120 phút</p>
-                            <p>Số phần thi: 7</p>
-                            <p>Số câu hỏi: 200</p>
-                            <a class="btn custom-btn mt-3 mt-lg-4" asp-controller="Exam" asp-action="CreateExam" asp-route-id="@item.IddeThi">Làm bài</a>
+                <div class="col-md-12">
+                    <div>
+                        <div class="col-12 text-center">
+                            <h2 class="mb-4" style="color: darkcyan; margin-top: 100px">Danh sách đề thi</h2>
                         </div>
                     </div>
-                }
+                    <!-- Danh sách đề thi -->
+                    <div class="row">
+                        <div class="col-md-2">
+                            <!-- Sidebar code -->
+                            <div id="sidebar">
+                                @foreach (var item in ViewBag.ListETS)
+                                {
+                                    <button class="btn btn-light" style="margin-bottom: 10px">
+                                        <a href="@Url.Action("Exam", "Exam", new {idEts = item.Idets})">@item.TenEts</a>
+                                    </button>
+                                    <br />
+                                }
+                            </div>
+                        </div>
+                        <div class="col-md-10">
+                            <div class="row" style="border-left: 4px solid gray">
+                                @foreach (var item in ViewBag.ListDeThi)
+                                {
+                                    <div class="col-md-4">
+                                        <div class="card" style="margin-bottom: 20px">
+                                            <h2>Tên đề thi: @item.TenDeThi</h2>
+                                            <p>Thời gian: 120 phút</p>
+                                            <p>Số phần thi: 7</p>
+                                            <p>Số câu hỏi: 200</p>
+                                            <a class="btn custom-btn mt-3 mt-lg-4" asp-controller="Exam" asp-action="CreateExam" asp-route-id="@item.IddeThi">Làm bài</a>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
+
     </main>
     @Html.Partial("Footer")
 

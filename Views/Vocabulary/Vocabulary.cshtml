@@ -2,8 +2,6 @@
 <html lang="en">
 @{
     Layout = null;
-    var listChuDe = ViewData["listChuDeTuVung"] as List<ChuDeTuVung>;
-    var totalPages = ViewData["totalPages"] as int?;
 }
 <head>
     <meta charset="utf-8">
@@ -22,20 +20,43 @@
     <link href="~/css/bootstrap.min.css" rel="stylesheet">
     <link href="~/css/bootstrap-icons.css" rel="stylesheet">
     <link href="~/css/templatemo-topic-listing.css" rel="stylesheet">
-    <!--
+    <style>
+        .pagination {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
 
-    TemplateMo 590 topic listing
+            .pagination li {
+                margin: 0 5px;
+            }
 
-    https://templatemo.com/tm-590-topic-listing
+            .pagination a {
+                text-decoration: none;
+                color: #007bff;
+                padding: 5px 10px;
+                border: 1px solid #007bff;
+                border-radius: 3px;
+            }
 
-    -->
+                .pagination a:hover {
+                    background-color: #007bff;
+                    color: #fff;
+                }
+
+            .pagination .active a {
+                background-color: #007bff;
+                color: #fff;
+            }
+    </style>
 </head>
 
 <body id="top">
 
     <main>
 
-        @Html.PartialAsync("Navbar")
+        @Html.Partial("Navbar")
 
         <section class="section-padding">
             <div class="container">
@@ -46,7 +67,7 @@
                     </div>
 
                     <div class="col-lg-8 col-12 mt-3 mx-auto">
-                        @foreach (var item in listChuDe!)
+                        @foreach (var item in ViewBag.vocabs)
                         {
                             <div class="custom-block custom-block-topics-listing bg-white shadow-lg mb-5">
                                 <div class="d-flex">
@@ -64,110 +85,39 @@
                                 </div>
                             </div>
                         }
-                    </div>
-
-                    <div class="col-lg-12 col-12">
-                        <nav aria-label="Page navigation example">
-                            <ul class="pagination justify-content-center mb-0">
-                                <li class="page-item">
-                                    <a class="page-link" href="#" aria-label="Previous">
-                                        <span aria-hidden="true">Prev</span>
-                                    </a>
-                                </li>
-
-                                @for (int i = 1; i <= totalPages; i++)
+                        <div>
+                            <ul class="pagination">
+                                @if (ViewBag.currentPage > 1)
                                 {
-                                    <li class="page-item active" aria-current="page">
-                                        <a class="page-link" asp-controller="Vocabulary" asp-action="Vocabulary" asp-route-num="@i">@i</a>
+                                    <li>
+                                        <a href="/Vocabulary/Vocabulary?num=@(ViewBag.currentPage - 1)">Prev</a>
                                     </li>
                                 }
 
-                                <li class="page-item">
-                                    <a class="page-link" href="#" aria-label="Next">
-                                        <span aria-hidden="true">Next</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </nav>
-                    </div>
+                                @for (int i = 1; i <= ViewBag.totalPages; i++)
+                                {
+                                    <li class="@(i == ViewBag.currentPage ? "active" : "")">
+                                        <a href="/Vocabulary/Vocabulary?num=@i">@i</a>
+                                    </li>
+                                }
 
+                                @if (ViewBag.currentPage < ViewBag.totalPages)
+                                {
+                                    <li>
+                                        <a href="/Vocabulary/Vocabulary?num=@(ViewBag.currentPage + 1)">Next</a>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
 
     </main>
 
-    <footer class="site-footer section-padding">
-        <div class="container">
-            <div class="row">
+    @Html.Partial("Footer")
 
-                <div class="col-lg-3 col-12 mb-4 pb-2">
-                    <a class="navbar-brand mb-2" href="index.html">
-                        <i class="bi-back"></i>
-                        <span>Bearlingo</span>
-                    </a>
-                </div>
-
-                <div class="col-lg-3 col-md-4 col-6">
-                    <h6 class="site-footer-title mb-3">Thông tin</h6>
-
-                    <ul class="site-footer-links">
-                        <li class="site-footer-link-item">
-                            <a href="#" class="site-footer-link">Hỗ trợ</a>
-                        </li>
-
-                        <li class="site-footer-link-item">
-                            <a href="#" class="site-footer-link">Hướng dẫn sử dụng</a>
-                        </li>
-
-                        <li class="site-footer-link-item">
-                            <a href="#" class="site-footer-link">Điều Khoản</a>
-                        </li>
-
-                        <li class="site-footer-link-item">
-                            <a href="#" class="site-footer-link">Quyền riêng tư</a>
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="col-lg-3 col-md-4 col-6 mb-4 mb-lg-0">
-                    <h6 class="site-footer-title mb-3">Về chúng tôi</h6>
-
-                    <p class="text-white d-flex mb-1">
-                        <a href="tel: 305-240-9671" class="site-footer-link">
-                            Giới thiệu
-                        </a>
-                    </p>
-
-                    <p class="text-white d-flex">
-                        <a href="mailto:info@company.com" class="site-footer-link">
-                            Liên hệ
-                        </a>
-                    </p>
-                </div>
-
-                <div class="col-lg-3 col-md-4 col-12 mt-4 mt-lg-0 ms-auto">
-                    <div class="dropdown">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                                aria-expanded="false">
-                            English
-                        </button>
-
-                        <ul class="dropdown-menu">
-                            <li><button class="dropdown-item" type="button">Thai</button></li>
-
-                            <li><button class="dropdown-item" type="button">Myanmar</button></li>
-
-                            <li><button class="dropdown-item" type="button">Arabic</button></li>
-
-                            <li><button class="dropdown-item" type="button">Viet Nam</button></li>
-                        </ul>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </footer>
 
     <!-- JAVASCRIPT FILES -->
     <script src="~/js/jquery.min.js"></script>
@@ -175,6 +125,36 @@
     <script src="~/js/jquery.sticky.js"></script>
     <script src="~/js/click-scroll.js"></script>
     <script src="~/js/custom.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            var itemsPerPage = 5; // Number of items to display per page
+            var currentPage = 1;
 
+            function showPage(page) {
+                var startIndex = (page - 1) * itemsPerPage;
+                var endIndex = startIndex + itemsPerPage;
+
+                $('.custom-block').hide().slice(startIndex, endIndex).show();
+            }
+
+            // Initial page load
+            showPage(currentPage);
+
+            // Next button click event
+            $('#next-btn').click(function () {
+                currentPage++;
+                showPage(currentPage);
+            });
+
+            // Previous button click event
+            $('#prev-btn').click(function () {
+                if (currentPage > 1) {
+                    currentPage--;
+                    showPage(currentPage);
+                }
+            });
+        });
+    </script>
 </body>
 </html>
