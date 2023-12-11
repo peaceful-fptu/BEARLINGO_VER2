@@ -2,10 +2,14 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System;
+using System.Web;
+using System.IO;
 using Microsoft.AspNetCore.Authorization;
 using static BEARLINGO.Program;
 using Microsoft.EntityFrameworkCore;
 using BEARLINGO.DTO;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using ClosedXML.Excel;
 
 namespace BEARLINGO.Controllers.Admin
 {
@@ -36,6 +40,12 @@ namespace BEARLINGO.Controllers.Admin
                 ViewBag.ListETS = listETS;
                 return View();
             }
+        }
+        public IActionResult AddExam()
+        {
+            var listETS = _context.Ets.ToList();
+            ViewBag.ListETS = listETS;
+            return View("~/Views/AdminPage/AddExam.cshtml");
         }
         public IActionResult CreateExam(int id)
         {
@@ -359,6 +369,164 @@ namespace BEARLINGO.Controllers.Admin
             ViewBag.reading = detailReadingDTOs;
             ViewBag.info = info;
             return View();
+        }
+
+        [HttpPost]
+        public IActionResult AddNewExam(string nameExam, int etsExam, IFormFile exam, List<IFormFile> images, List<IFormFile> audio)
+        {
+            var newExam = new DeThi
+            {
+                TenDeThi = nameExam,
+                Idets = etsExam,
+                Idqtv = 1,
+                ThoiGian = new TimeSpan(2, 0, 0),
+            };
+            _context.DeThis.Add(newExam);
+            _context.SaveChanges();
+            if (images.Count == 0 || audio.Count == 0)
+            {
+                return Json(new { success = false, message = "Vui lòng chọn file" });
+            }
+            else
+            {
+                foreach (var image in images)
+                {
+                    if (image != null && image.Length > 0)
+                    {
+                        //import vào filesystem
+                        // Lấy thông tin về tệp tin
+                        string fileName = Path.GetFileName(image.FileName);
+                        string filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", fileName);
+
+                        // Lưu tệp tin vào thư mục Uploads
+                        using (var stream = new FileStream(filePath, FileMode.Create))
+                        {
+                            image.CopyTo(stream);
+                        }
+
+                        // Lưu thông tin vào database
+                        var picture = new Picture
+                        {
+                            TenFile = fileName,
+                            IddeThi = newExam.IddeThi
+                        };
+                        _context.Pictures.Add(picture);
+                        _context.SaveChanges();
+                    }
+                }
+                foreach (var audioFile in audio)
+                {
+                    if (audioFile != null && audioFile.Length > 0)
+                    {
+                        // Lấy thông tin về tệp tin
+                        string fileName = Path.GetFileName(audioFile.FileName);
+                        string filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/audio", fileName);
+
+                        // Lưu tệp tin vào thư mục Uploads
+                        using (var stream = new FileStream(filePath, FileMode.Create))
+                        {
+                            audioFile.CopyTo(stream);
+                        }
+
+                        // Lưu thông tin vào database
+                        var audio1 = new Audio
+                        {
+                            TenFile = fileName,
+                            IddeThi = newExam.IddeThi
+                        };
+                        _context.Audios.Add(audio1);
+                        _context.SaveChanges();
+                    }
+                }
+                if (exam != null && exam.Length > 0)
+                {
+                    using (var stream = new MemoryStream())
+                    {
+                        exam.CopyTo(stream);
+                        using (XLWorkbook workbook = new XLWorkbook(stream))
+                        {
+                            // Đọc sheet 1
+                            IXLWorksheet worksheet1 = workbook.Worksheet(1);
+                            bool isFirstRowSheet1 = true;
+                            foreach (var row in worksheet1.RowsUsed())
+                            {
+                                // Bỏ qua dòng đầu tiên (tiêu đề)
+                                if (isFirstRowSheet1)
+                                {
+                                    isFirstRowSheet1 = false;
+                                    continue;
+                                }
+                                var idPicture1 = 7;
+                                var typeL = row.Cell(9)!.Value.ToString();
+                                var audioExcel = row.Cell(10)!.Value.ToString();
+                                var pictureExcel = row.Cell(11)!.Value.ToString();
+                                var typeListen = _context.PhanLoaiLs.FirstOrDefault(x => x.Loai == typeL)!.IdphanLoaiL;
+                                var idAudio = _context.Audios.FirstOrDefault(x => x.TenFile == audioExcel)!.Idaudio;
+                                var idPicture = _context.Pictures.Where(x => x.TenFile == pictureExcel);
+                                if (idPicture.Count() > 0)
+                                {
+                                    idPicture1 = idPicture.FirstOrDefault()!.Idpicture;
+                                }
+                                var listen = new Listening
+                                {
+                                    NoiDung = row.Cell(1).Value!.ToString(),
+                                    DapAn1 = row.Cell(2).Value!.ToString(),
+                                    DapAn2 = row.Cell(3).Value!.ToString(),
+                                    DapAn3 = row.Cell(4).Value!.ToString(),
+                                    DapAn4 = row.Cell(5).Value!.ToString(),
+                                    DapAnDung = row.Cell(6).Value!.ToString(),
+                                    GiaiThich = row.Cell(7).Value!.ToString(),
+                                    Stt = Convert.ToInt32(row.Cell(8).Value!.ToString()),
+                                    IddeThi = newExam.IddeThi,
+                                    IdphanLoaiL = typeListen,
+                                    Idpicture = idPicture1,
+                                    Idaudio = idAudio
+                                };
+                                _context.Listenings.Add(listen);
+                                _context.SaveChanges();
+                            }
+                            // Đọc sheet 2
+                            IXLWorksheet worksheet2 = workbook.Worksheet(2);
+                            bool isFirstRowSheet2 = true;
+                            foreach (var row in worksheet1.RowsUsed())
+                            {
+                                // Bỏ qua dòng đầu tiên (tiêu đề)
+                                if (isFirstRowSheet2)
+                                {
+                                    isFirstRowSheet2 = false;
+                                    continue;
+                                }
+                                var idPicture1 = 7;
+                                var typeR = row.Cell(9)!.Value.ToString();
+                                var pictureExcel = row.Cell(11)!.Value.ToString();
+                                var typeReading = _context.PhanLoaiRs.FirstOrDefault(x => x.Loai == typeR)!.IdphanLoaiR;
+                                var idPicture = _context.Pictures.Where(x => x.TenFile == pictureExcel);
+                                if (idPicture.Count() > 0)
+                                {
+                                    idPicture1 = idPicture.FirstOrDefault()!.Idpicture;
+                                }
+                                var reading = new Reading
+                                {
+                                    NoiDung = row.Cell(1).Value!.ToString(),
+                                    DapAn1 = row.Cell(2).Value!.ToString(),
+                                    DapAn2 = row.Cell(3).Value!.ToString(),
+                                    DapAn3 = row.Cell(4).Value!.ToString(),
+                                    DapAn4 = row.Cell(5).Value!.ToString(),
+                                    DapAnDung = row.Cell(6).Value!.ToString(),
+                                    GiaiThich = row.Cell(7).Value!.ToString(),
+                                    Stt = Convert.ToInt32(row.Cell(8).Value!.ToString()),
+                                    IddeThi = newExam.IddeThi,
+                                    IdphanLoaiR = typeReading,
+                                    Idpicture = idPicture1,
+                                };
+                                _context.Readings.Add(reading);
+                                _context.SaveChanges();
+                            }
+                        }
+                    }
+                }
+            }
+            return Json(new { success = true, message = "Thêm đề thi thành công" });
         }
     }
 }

@@ -34,7 +34,7 @@ namespace BEARLINGO.Controllers.Admin
             List<Blog> list = _context.Blogs.ToList();
             ViewBag.blogs = list;
             ViewBag.navlink = "blog";
-            return View("~/Views/AdminPage/Blog.cshtml");
+            return View("~/Views/AdminPage/Blog.cshtml"); 
         }
         public IActionResult getTips()
         {
