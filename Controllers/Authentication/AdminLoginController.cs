@@ -15,7 +15,7 @@ namespace BEARLINGO.Controllers.Authentication
             {
                 HttpContext.Session.SetString("Admin", "true");
 
-                return View("~/Views/AdminPage/Dashboard.cshtml");
+                return RedirectToAction("Index", "Dashboard");
             }
             else
             {

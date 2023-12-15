@@ -7,44 +7,81 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Biểu Đồ Số Bài Làm Theo Ngày</title>
-    
+
     <style>
-        /* CSS for the icon */
-        .icon {
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+        }
+
+        .app-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+        }
+
+        #clock {
+            font-size: 18px;
+            color: #777;
+        }
+
+        .container-fluid {
+            padding: 20px;
+        }
+
+        /* Kiểu dáng cho các card widget */
+        .card.widget {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-body {
+            padding: 20px;
+        }
+
+        h3 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        p {
+            font-size: 18px;
+            color: #777;
+        }
+
+        /* Kiểu dáng cho biểu đồ và thẻ Tags */
+        section {
+            margin-top: 40px;
+        }
+
+        canvas#myChart {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .col-md-4 {
             display: flex;
             align-items: center;
-            justify-content: center;
-            font-size: 36px; /* Adjust the font size as needed */
-            width: 80px; /* Set a fixed width for the icon container */
-            height: 80px; /* Set a fixed height for the icon container */
-            margin-bottom: 15px; /* Optional: Add spacing between the icon and the text */
-            color: #fff; /* Set the color of the icon */
-            background-color: #3498db; /* Set the background color of the icon */
-            border-radius: 50%; /* Optional: Add border-radius to make the icon circular */
         }
 
-            /* Optional: Adjust the size of the icon itself */
-            .icon i {
-                font-size: 24px; /* Adjust the font size of the icon */
-            }
-
-        /* CSS for the text inside the card */
-        .card-body {
-            padding: 20px; /* Optional: Add padding to the card body */
-        }
-
-        /* CSS for the h3 element (number) */
         h3 {
-            font-size: 24px; /* Adjust the font size as needed */
-            margin-bottom: 10px; /* Optional: Add spacing between the number and the text */
+            font-size: 22px;
+            margin-bottom: 10px;
         }
 
-        /* CSS for the p element (description) */
-        p {
-            font-size: 18px; /* Adjust the font size as needed */
-            color: #777; /* Optional: Set the color of the description */
+        .tag {
+            display: inline-block;
+            padding: 8px 15px;
+            background: #2196F3;
+            color: #fff;
+            border-radius: 20px;
+            margin: 0 5px 10px;
+            font-size: 18px;
+            font-weight: bold;
         }
-
     </style>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
@@ -58,83 +95,202 @@
     <div class="container-fluid">
         <div class="row">
             <!-- Main Content -->
-            <div class="col-md-8 col-lg-9 px-4">
+            <div class="col-md-12 col-lg-12 px-4">
 
                 <!-- Stats -->
                 <section class="pt-4">
                     <div class="row align-items-center">
                         <!-- Thêm class align-items-center để căn giữa dòng -->
                         <div class="col-md-4">
-                            <div class="card text-center widget">
+                            <div class="card text-center widget" style="width: 400px">
                                 <div class="card-body">
-                                    <h3>12</h3>
+                                    <h3>@ViewBag.userCount</h3>
                                     <p>Tổng số người dùng</p>
                                 </div>
                             </div>
                         </div>
 
                         <div class="col-md-4">
-                            <div class="card text-center widget">
+                            <div class="card text-center widget" style="width: 400px">
                                 <div class="card-body">
-                                    <h3>12</h3>
+                                    <h3>@ViewBag.examCount</h3>
                                     <p>Tổng số đề thi</p>
                                 </div>
                             </div>
                         </div>
 
                         <div class="col-md-4">
-                            <div class="card text-center widget">
+                            <div class="card text-center widget" style="width: 400px">
                                 <div class="card-body">
-                                    <h3>12</h3>
+                                    <h3>@ViewBag.testCount</h3>
                                     <p>Tổng số bài làm</p>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </section>
+                <section class="pt-4">
+                    <div class="row align-items-center">
+                        <!-- Thêm class align-items-center để căn giữa dòng -->
+                        <div class="col-md-2">
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card text-center widget" style="width: 400px">
+                                <div class="card-body">
+                                    <h3>@ViewBag.blogCount</h3>
+                                    <p>Tổng số Blogs</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="card text-center widget" style="width: 400px">
+                                <div class="card-body">
+                                    <h3>@ViewBag.tipCount</h3>
+                                    <p>Tổng số Tips</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                        </div>
+                    </div>
+                </section>
                 <!-- Sales Chart -->
                 <section>
                     <h2 class="fw-bold text-primary" style="margin-top: 20px">Biểu Đồ Số Bài Làm Theo Ngày</h2>
-                    <canvas id="myChartDemo"></canvas>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="startDate">Từ ngày:</label>
+                                        <input type="date" id="startDate" class="form-control" pattern="\d{4}-\d{2}-\d{2}" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="endDate">Đến ngày:</label>
+                                        <input type="date" id="endDate" class="form-control" pattern="\d{4}-\d{2}-\d{2}" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <button type="button" class="btn btn-danger" style="width: 100px" onclick="filterChartByDateRange()">Lọc</button>
+                    </div>
+                    <div class="row align-items-center">
+                        <div class="col-md-8">
+                            <canvas id="myChart"></canvas>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="tags" style="margin-left: 50px">
+                                <h3 style="display: flex; justify-content:center">Số điểm cao nhất</h3><br />
+                                <span style="display: flex; justify-content:center; color:red; font-weight:800;font-size:50px">@ViewBag.userMax.TotalScore</span><br />
+                                <span class="tag" style="display: flex; justify-content:center">@ViewBag.userMax.FullName</span>
+                            </div>
+                        </div>
+                    </div>
                 </section>
-
-                <!-- Recent Orders Table -->
-                <section class="mt-5">
-                    <h2 class="fw-bold text-primary">Recent Orders</h2>
-                    <table class="table">
-                        <!-- Table content -->
-                    </table>
+                <section>
+                    <h2 class="fw-bold text-primary" style="margin-top: 20px">Biểu Đồ Số Bài Làm Theo Đề</h2>
+                    <div class="row align-items-center">
+                        <div class="col-md-4">
+                            <div class="tags" style="margin-left: 50px">
+                                <h3 style="display: flex; justify-content:center">Số đề được làm nhiều nhất</h3><br />
+                                <span style="display: flex; justify-content:center; color:red; font-weight:800;font-size:50px">@ViewBag.mostExam.SoLuong</span><br />
+                                <span class="tag" style="display: flex; justify-content:center">@ViewBag.mostExam.DeThi</span>
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <canvas id="myChart1"></canvas>
+                        </div>
+                    </div>
                 </section>
-
             </div>
 
         </div>
     </div>
-    <script type="text/javascript">
-        // Dữ liệu mẫu (thay thế với dữ liệu thực tế từ server)
-        var data = {
-            labels: ['2023-11-01', '2023-11-02', '2023-11-03', '2023-11-04', '2023-11-05'],
-            datasets: [{
-                label: 'Số Bài Làm',
-                data: [3, 5, 7, 2, 8],
-                backgroundColor: 'rgba(75, 192, 192, 0.2)', // Màu nền cho biểu đồ
-                borderColor: 'rgba(75, 192, 192, 1)', // Màu đường viền biểu đồ
-                borderWidth: 1 // Độ đậm của đường viền biểu đồ
-            }]
-        };
+    <script src="~/lib/chart.js/dist/Chart.min.js"></script>
 
-        // Tạo biểu đồ
-        var ctx = document.getElementById("myChartDemo").getContext('2d');
+    <script>
+        var data = @Html.Raw(Json.Serialize(ViewBag.dataTest));
+
+        var dates = [];
+        var counts = [];
+
+        for (var i = 0; i < data.length; i++) {
+            dates.push(data[i].ngaythi);
+            counts.push(data[i].soluong);
+        }
+
+        var ctx = document.getElementById("myChart");
+
         var myChart = new Chart(ctx, {
             type: 'bar',
-            data: data,
-            options: {
-                scales: {
-                    x: { type: 'time', time: { unit: 'day' } }, // Định dạng trục x là thời gian (ngày)
-                    y: { beginAtZero: true }
-                }
+            data: {
+                labels: dates,
+                datasets: [{
+                    label: 'Số bài làm',
+                    data: counts
+                }]
             }
         });
+        var data1 = @Html.Raw(Json.Serialize(ViewBag.dataTest1));
+
+        var dethi1 = [];
+        var counts1 = [];
+
+        for (var i = 0; i < data1.length; i++) {
+            dethi1.push(data1[i].dethi);
+            counts1.push(data1[i].soluong);
+        }
+
+        var ctx1 = document.getElementById("myChart1");
+
+        var myChart1 = new Chart(ctx1, {
+            type: 'bar',
+            data: {
+                labels: dethi1,
+                datasets: [{
+                    label: 'Số bài làm',
+                    data: counts1
+                }]
+            }
+        });
+
+        function filterChartByDateRange() {
+            var startDate = new Date(document.getElementById("startDate").value);
+            var endDate = new Date(document.getElementById("endDate").value);
+
+            // Nếu không có ngày bắt đầu hoặc kết thúc, không làm gì cả
+            if (!startDate || !endDate || isNaN(startDate) || isNaN(endDate)) {
+                return;
+            }
+
+            // Lọc dữ liệu theo khoảng thời gian
+            var filteredData = data.filter(function (item) {
+                var currentDate = parseDate(item.ngaythi);
+                return currentDate >= startDate && currentDate <= endDate;
+            });
+
+            // Cập nhật dữ liệu và vẽ lại biểu đồ
+            myChart.data.labels = filteredData.map(function (item) {
+                return item.ngaythi;
+            });
+            myChart.data.datasets[0].data = filteredData.map(function (item) {
+                return item.soluong;
+            });
+
+            // Cập nhật biểu đồ
+            myChart.update();
+        }
+        function parseDate(dateString) {
+            var parts = dateString.split('/');
+            // Note: parts[0] is day, parts[1] is month, parts[2] is year
+            return new Date(parts[2], parts[1] - 1, parts[0]);
+        }
     </script>
 </body>
 </html>
