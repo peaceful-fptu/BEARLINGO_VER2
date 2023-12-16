@@ -111,6 +111,20 @@ namespace BEARLINGO.Controllers.Admin
 
             return View();
         }
+        public IActionResult EditChuDe(int idChuDeTuVung, string chuDe)
+        {
+            var chuDeTV = _context.ChuDeTuVungs.FirstOrDefault(x => x.IdchuDeTuVung == idChuDeTuVung);
+            if (chuDeTV == null)
+            {
+                return RedirectToAction("Vocabulary", "Vocabulary");
+            }
+            else
+            {
+                chuDeTV.ChuDe = chuDe;
+                _context.SaveChanges();
+            }
+            return RedirectToAction("AddTuVung", "Vocabulary");
+        }
         public IActionResult AddTuVung()
         {
             List<ChuDeTuVung> chuDeTuVungs = _context.ChuDeTuVungs.ToList();

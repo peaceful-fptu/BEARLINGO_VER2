@@ -147,6 +147,20 @@ namespace BEARLINGO.Controllers.Admin
 
             return View();
         }
+        public IActionResult EditChuDe(int idChuDeNguPhap, string chuDe)
+        {
+            var chuDeNP = _context.ChuDeNguPhaps.FirstOrDefault(x => x.IdchuDeNguPhap == idChuDeNguPhap);
+            if (chuDeNP == null)
+            {
+                return RedirectToAction("Grammar", "Grammar");
+            }
+            else
+            {
+                chuDeNP.TenNguPhap = chuDe;
+                _context.SaveChanges();
+            }
+            return RedirectToAction("AddNguPhap", "Vocabulary");
+        }
 
         [Authorize(Policy = Roles.Admin)]
         [HttpGet]
