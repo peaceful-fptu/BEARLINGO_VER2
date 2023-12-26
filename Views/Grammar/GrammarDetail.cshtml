@@ -2,7 +2,6 @@
 <html lang="en">
 @{
     Layout = null;
-    var nguPhap = ViewData["NguPhap"] as NguPhap;
 }
 <head>
     <meta charset="utf-8">
@@ -126,7 +125,7 @@
                     <div class="col-12 text-center">
                         <br />
                         <br />
-                        <h2 class="text-black mb-4">@nguPhap!.TieuDe</h2>
+                        <h2 class="text-black mb-4">@ViewBag.nguphap.TieuDe</h2>
                     </div>
                     <div class="col-lg-10 col-12 mx-auto">
                         <div class="timeline-container">
@@ -137,36 +136,36 @@
                                 <div>
                                     <h4>1. Cách Dùng</h4>
                                     <div>
-                                        @Html.Raw(nguPhap.CachDung)
+                                        @Html.Raw(ViewBag.nguphap.CachDung)
                                     </div>
                                 </div>
                                 <div>
                                     <h4>2. Cấu Trúc</h4>
                                     <div>
-                                        @Html.Raw(nguPhap.CauTruc)
+                                        @Html.Raw(ViewBag.nguphap.CauTruc)
                                     </div>
                                 </div>
                                 <div>
                                     <h4>3. Ví Dụ</h4>
                                     <div>
-                                        @Html.Raw(nguPhap.ViDu)
+                                        @Html.Raw(ViewBag.nguphap.ViDu)
                                     </div>
                                 </div>
-                                @if (nguPhap.BoSung!.Trim().Length > 0)
+                                @if (ViewBag.nguphap.BoSung!.Trim().Length > 0)
                                 {
                                     <div>
                                         <h4>4. Bổ Sung</h4>
                                         <div>
-                                            @Html.Raw(nguPhap.BoSung)
+                                            @Html.Raw(ViewBag.nguphap.BoSung)
                                         </div>
                                     </div>
                                 }
-                                @if (nguPhap.LuuY!.Trim().Length > 0)
+                                @if (ViewBag.nguphap.LuuY!.Trim().Length > 0)
                                 {
                                     <div>
                                         <h4>5. Lưu Ý</h4>
                                         <div>
-                                            @Html.Raw(nguPhap.LuuY)
+                                            @Html.Raw(ViewBag.nguphap.LuuY)
                                         </div>
                                     </div>
                                 }

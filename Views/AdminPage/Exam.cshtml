@@ -44,7 +44,7 @@
                                 <td>@item.IdetsNavigation.TenEts</td>
                                 <td class="table-td-center">
                                     <button class="btn btn-primary btn-sm trash" type="button" title="Xóa"
-                                            onclick="deleteExam(@item.IddeThi)">
+                                            onclick="DeleteExam(@item.IddeThi)">
                                         <i class="fas fa-trash-alt"></i>
                                     </button>
                                     <button class="btn btn-primary btn-sm edit" type="button" title="Sửa" id="show-emp"
@@ -97,19 +97,17 @@
                                 </div>
                             </tr>
                         }
-
-
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
     <script>
-        function deleteBlog(i) {
+        function DeleteExam(i) {
             swal({
                 title: "Cảnh báo",
 
-                text: "Bạn có chắc chắn là muốn xóa blog?",
+                text: "Bạn có chắc chắn là muốn xóa đề thi?",
                 buttons: ["Hủy bỏ", "Đồng ý"],
             })
                 .then((willDelete) => {
@@ -118,7 +116,7 @@
                         swal("Đã xóa thành công.!", {
 
                         });
-                        window.location.href = "@(Context.Request.PathBase)/Blog/deleteBlog?id=" + i;
+                        window.location.href = "@(Context.Request.PathBase)/Exam/DeleteExam?id=" + i;
                     }
                 });
         }

@@ -201,77 +201,57 @@
     <script src="~/js/custom.js"></script>
     <script>
         const part1 = `
-                                                                                               <div>
-                                                                                               <h3>Part 1</h3>
-                                                                                               <p>
-                                                                                               Directions: For each question in this part, you will hear four statements about a picture.
-                                                                                               When you heart the statements, you must select the one statement that best describes what you see in the picture.
-                                                                                               Then find the number of the question on your screen and mark your answer.
-                                                                                               The statements will be spoken only one time.
-                                                                                               </p>
-                                                                                               </div>
-                                                                                               `;
-        const part2 = `
-                                                                                               <div>
-                                                                                               <h3>Part 2</h3>
-                                                                                               <p>
-                                                                                               Directions: You will hear a question or statement and three responses spoken in English.
-                                                                                               They will not be printed in your screen and will be spoken only one time.
-                                                                                               Select the best response to the question or statement.
-                                                                                               </p>
-                                                                                               </div>
-                                                                                               `;
-        const part3 = `
-                                                                                                       <div>
-                                                                                                       <h3>Part 3</h3>
-                                                                                                       <p>
-                                                                                                               Directions: You will hear some conversations between two or more people.
-                                                                                        You will be asked to answer three questions about what the speakers say in each conversation.
-                                                                                        The conversations will be spoken only one time.
-                                                                                                       </p>
-                                                                                                       </div>
-                                                                                                       `;
-        const part4 = `
-                                                                                                       <div>
-                                                                                                       <h3>Part 4</h3>
-                                                                                                       <p>
-                                                                                                                      Directions: You will hear some talks given by a single speaker.
-                                                                                You will be asked to answer three questions about what the speaker says in each talk.
-                                                                                The talks will be spoken only one time.
-                                                                                                       </p>
-                                                                                                       </div>
-                                                                                                       `;
-        const part5 = `
-                                                                                                       <div>
-                                                                                                       <h3>Part 5</h3>
-                                                                                                       <p>
-                                                                                                               Directions: A word or phrase is missing in each of the sentences below.
-                                                                                Four answer choices are given below each sentence.
-                                                                                Select the best answer to complete the sentence.
-                                                                                Then mark the letter (A), (B), (C), or (D) on your answer sheet.
-                                                                                                               </p>
-                                                                                                       </div>
-                                                                                                       `;
-        const part6 = `
-                                                                                                               <div>
-                                                                                                               <h3>Part 6</h3>
-                                                                                                               <p>
-                                                                                                                           Directions: Read the texts that follow. A word, phrase, or sentence is missing in parts of each text.
-                                                                                Four answer choices for each question are given below the text.
-                                                                                Select the best answer to complete the text. Then mark the letter (A), (B), (C), or (D) on your answer sheet.
-                                                                                                               </p>
-                                                                                                               </div>
-                                                                                                               `;
-        const part7 = `
-                                                                                                               <div>
-                                                                                                               <h3>Part 7</h3>
-                                                                                                               <p>
-                                                                                                                              Directions: In this part you will read a selection of texts, such as magazine and newspaper articles,
-                                                                                e-mails, and instant messages. Each text or set of texts is followed by several questions.
-                                                                                Select the best answer for each question and mark the letter (A), (B), (C), or (D) on your answer sheet.
+                                                                                                                       <div>
+                                                                                                                       <h3>Part 1</h3>
+                                                                                                                       <p>
+                                                                                                                       Directions: For each question in this part, you will hear four statements about a picture.
+                                                                                                                       When you heart the statements, you must select the one statement that best describes what you see in the picture.
+                                                                                                                       Then find the number of the question on your screen and mark your answer.
+                                                                                                                       The statements will be spoken only one time.
                                                                                                                        </p>
-                                                                                                               </div>
-                                                                                                               `;
+                                                                                                                       </div>
+                                                                                                                       `;
+        const part2 = `
+                                                                                                                       <div>
+                                                                                                                       <h3>Part 2</h3>
+                                                                                                                       <p>
+                                                                                                                       Directions: You will hear a question or statement and three responses spoken in English.
+                                                                                                                       They will not be printed in your screen and will be spoken only one time.
+                                                                                                                       Select the best response to the question or statement.
+                                                                                                                       </p>
+                                                                                                                       </div>
+                                                                                                                       `;
+        const part3 = `
+                                                                                                                               <div>
+                                                                                                                               <h3>Part 3</h3>
+                                                                                                                               <p>
+                                                                                                                                       Directions: You will hear some conversations between two or more people.
+                                                                                                                You will be asked to answer three questions about what the speakers say in each conversation.
+                                                                                                                The conversations will be spoken only one time.
+                                                                                                                               </p>
+                                                                                                                               </div>
+                                                                                                                               `;
+        const part4 = `
+                                                                                                                               <div>
+                                                                                                                               <h3>Part 4</h3>
+                                                                                                                               <p>
+                                                                                                                                              Directions: You will hear some talks given by a single speaker.
+                                                                                                        You will be asked to answer three questions about what the speaker says in each talk.
+                                                                                                        The talks will be spoken only one time.
+                                                                                                                               </p>
+                                                                                                                               </div>
+                                                                                                                               `;
+        const partReading = `
+                                                                                                                               <div>
+                                                                                                                               <h3>Reading</h3>
+                                                                                                                               <p>
+                                                                                                                                               Directions: In the Reading test, you will read a variety of texts and answer several different types of reading comprehension questions.
+                                                                                                                               There are three parts, and you are encouraged to answer as many questions as possible within the time allowed.
+                                                                                                                                       Four choices are given below each sentence.
+                                                                                                                                       Select the best answer then mark the letter (A), (B), (C), or (D) on your answer sheet.
+                                                                                                                                       </p>
+                                                                                                                               </div>
+                                                                                                                               `;
         var data1 = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.deThiPart1));
         var data2 = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.deThiPart2));
         var data3 = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.deThiPart3));
@@ -285,14 +265,12 @@
             await playAudio("/audio/directionpart1.mp3", part1);
             await displayQuestions(data1, 0, '1');
             // await playAudio("/audio/directionpart2.mp3", part2);
-            //  await displayQuestions(data2, 0, '1');
-            //  await playAudio("/audio/directionpart3.mp3", part3);
-            //  await displayQuestions(data3, 0, '2');
+            // await displayQuestions(data2, 0, '1');
+            // await playAudio("/audio/directionpart3.mp3", part3);
+            // await displayQuestions(data3, 0, '2');
             // await playAudio("/audio/directionpart4.mp3", part4);
             //await displayQuestions(data4, 0, '2');
-
-            console.log(listReading);
-            await playAudioWithoutAudio(part5);
+            await playAudioWithoutAudio(partReading);
             await displayQuestionNext(listReading, 0);
         });
 
@@ -320,11 +298,13 @@
                     document.getElementById("contentTest").innerHTML = "";
                     document.getElementById("ansques").style.display = "flex";
                     resolve();
-                }, 1000);
+                }, 10000);
             });
         }
 
         var submit = false;
+
+
         const question = document.getElementById("question");
         const answer = document.getElementById("answer");
 
@@ -339,39 +319,39 @@
             audio = new Audio(`/audio/${list[index].Audio}`);
             await new Promise((resolve) => {
                 question.innerHTML = `<div>
-                <h5 style="font-weight: 600; margin-bottom: 3vh">Select the one statement that best describes what you see in the picture</h5>`;
+                                        <h5 style="font-weight: 600; margin-bottom: 3vh">Select the one statement that best describes what you see in the picture</h5>`;
                 if (list[index].Picture != null) {
                     question.innerHTML += `<img src="/images/${list[index].Picture}" style="width: 100%; height: 60vh; border-radius: 10px; border: 1px solid black; box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.2);">`;
                 }
                 switch (type) {
                     case '1': {
                         answer.innerHTML = `<div>
-                        <h5 style="font-weight: 600; margin-bottom: 3vh">Question ${list[index].STT}: ${list[index].NoiDung ? list[index].NoiDung : ""}</h5>
-                        <input type="radio" data-id="${list[index].STT}"  onchange="handleAns(${list[index].STT}, event.target.value)" ${listAnswer[list[index].STT] === 'A' ? 'checked' : ''} name="answer${list[index].STT}" value="A">
-                        <label for="answer${list[index].STT}1">${list[index].DapAn1}</label><br>
-                        <input type="radio" data-id="${list[index].STT}" onchange="handleAns(${list[index].STT}, event.target.value)" ${listAnswer[list[index].STT] === 'B' ? 'checked' : ''} name="answer${list[index].STT}" value="B">
-                        <label for="answer${list[index].STT}2">${list[index].DapAn2}</label><br>
-                        <input type="radio" data-id="${list[index].STT}" onchange="handleAns(${list[index].STT}, event.target.value)" ${listAnswer[list[index].STT] === 'C' ? 'checked' : ''} name="answer${list[index].STT}" value="C">
-                        <label for="answer${list[index].STT}3">${list[index].DapAn3}</label><br>
-                        <input type="radio" data-id="${list[index].STT}" onchange="handleAns(${list[index].STT}, event.target.value)" ${listAnswer[list[index].STT] === 'D' ? 'checked' : ''} name="answer${list[index].STT}" value="D">
-                        <label for="answer${list[index].STT}4">${list[index].DapAn4}</label><br>
-                        </div>`;
+                                                <h5 style="font-weight: 600; margin-bottom: 3vh">Question ${list[index].STT}: ${list[index].NoiDung ? list[index].NoiDung : ""}</h5>
+                                                <input type="radio" data-id="${list[index].STT}"  onchange="handleAns(${list[index].STT}, event.target.value)" ${listAnswer[list[index].STT] === 'A' ? 'checked' : ''} name="answer${list[index].STT}" value="A">
+                                                <label for="answer${list[index].STT}1">${list[index].DapAn1}</label><br>
+                                                <input type="radio" data-id="${list[index].STT}" onchange="handleAns(${list[index].STT}, event.target.value)" ${listAnswer[list[index].STT] === 'B' ? 'checked' : ''} name="answer${list[index].STT}" value="B">
+                                                <label for="answer${list[index].STT}2">${list[index].DapAn2}</label><br>
+                                                <input type="radio" data-id="${list[index].STT}" onchange="handleAns(${list[index].STT}, event.target.value)" ${listAnswer[list[index].STT] === 'C' ? 'checked' : ''} name="answer${list[index].STT}" value="C">
+                                                <label for="answer${list[index].STT}3">${list[index].DapAn3}</label><br>
+                                                <input type="radio" data-id="${list[index].STT}" onchange="handleAns(${list[index].STT}, event.target.value)" ${listAnswer[list[index].STT] === 'D' ? 'checked' : ''} name="answer${list[index].STT}" value="D">
+                                                <label for="answer${list[index].STT}4">${list[index].DapAn4}</label><br>
+                                                </div>`;
                         break;
                     }
                     case '2': {
                         answer.innerHTML = '';
                         for (let i = index; i < index + 3; i++) {
                             answer.innerHTML += `<div>
-                            <h5 style="font-weight: 600; margin-bottom: 3vh">Question ${list[i].STT}: ${list[i].NoiDung ? list[i].NoiDung : ""}</h5>
-                            <input type="radio" data-id="${list[i].STT}" onchange="handleAns(${list[i].STT}, event.target.value)" ${listAnswer[list[i].STT] === 'A' ? 'checked' : ''} name="answer${list[i].STT}" value="A">
-                            <label for="answer${list[i].STT}1">${list[i].DapAn1}</label><br>
-                            <input type="radio" data-id="${list[i].STT}" onchange="handleAns(${list[i].STT}, event.target.value)" ${listAnswer[list[i].STT] === 'B' ? 'checked' : ''} name="answer${list[i].STT}" value="B">
-                            <label for="answer${list[i].STT}2">${list[i].DapAn2}</label><br>
-                            <input type="radio" data-id="${list[i].STT}" onchange="handleAns(${list[i].STT}, event.target.value)" ${listAnswer[list[i].STT] === 'C' ? 'checked' : ''} name="answer${list[i].STT}" value="C">
-                            <label for="answer${list[i].STT}3">${list[i].DapAn3}</label><br>
-                            <input type="radio" data-id="${list[i].STT}" onchange="handleAns(${list[i].STT}, event.target.value)" ${listAnswer[list[i].STT] === 'D' ? 'checked' : ''} name="answer${list[i].STT}" value="D">
-                            <label for="answer${list[i].STT}4">${list[i].DapAn4}</label><br>
-                            </div>`;
+                                                    <h5 style="font-weight: 600; margin-bottom: 3vh">Question ${list[i].STT}: ${list[i].NoiDung ? list[i].NoiDung : ""}</h5>
+                                                    <input type="radio" data-id="${list[i].STT}" onchange="handleAns(${list[i].STT}, event.target.value)" ${listAnswer[list[i].STT] === 'A' ? 'checked' : ''} name="answer${list[i].STT}" value="A">
+                                                    <label for="answer${list[i].STT}1">${list[i].DapAn1}</label><br>
+                                                    <input type="radio" data-id="${list[i].STT}" onchange="handleAns(${list[i].STT}, event.target.value)" ${listAnswer[list[i].STT] === 'B' ? 'checked' : ''} name="answer${list[i].STT}" value="B">
+                                                    <label for="answer${list[i].STT}2">${list[i].DapAn2}</label><br>
+                                                    <input type="radio" data-id="${list[i].STT}" onchange="handleAns(${list[i].STT}, event.target.value)" ${listAnswer[list[i].STT] === 'C' ? 'checked' : ''} name="answer${list[i].STT}" value="C">
+                                                    <label for="answer${list[i].STT}3">${list[i].DapAn3}</label><br>
+                                                    <input type="radio" data-id="${list[i].STT}" onchange="handleAns(${list[i].STT}, event.target.value)" ${listAnswer[list[i].STT] === 'D' ? 'checked' : ''} name="answer${list[i].STT}" value="D">
+                                                    <label for="answer${list[i].STT}4">${list[i].DapAn4}</label><br>
+                                                    </div>`;
                         }
                         break;
                     }
@@ -381,11 +361,12 @@
 
                 }
                 audio.addEventListener("ended", async () => {
-                    await displayQuestions(list, index + (type === '1' ? 1 : 3), type);
-                    resolve();
+                    setTimeout(async () => {
+                        await displayQuestions(list, index + (type === '1' ? 1 : 3), type);
+                        resolve();
+                    }, 2000);
                 });
                 audio.play();
-                await new Promise(resolve => setTimeout(resolve, 2000));
             });
         }
         const previous = new Map();
@@ -396,7 +377,7 @@
                 }
 
                 question.innerHTML = `<div>
-                <h5 style="font-weight: 600; margin-bottom: 3vh">Select the one statement that best describes what you see in the picture</h5>`
+                                        <h5 style="font-weight: 600; margin-bottom: 3vh">Select the one statement that best describes what you see in the picture</h5>`
                 if (list[index].Picture != null) {
                     question.innerHTML += `<img src="/images/${list[index].Picture}" style="width: 100%; height: 60vh; border-radius: 10px; border: 1px solid black; box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.2);">`;
                 }
@@ -406,20 +387,20 @@
                         resolve();
                     }
                     answer.innerHTML += `<div>
-                    <h5 style="font-weight: 600; margin-bottom: 3vh">Question ${list[i].STT}: ${list[i].NoiDung ? list[i].NoiDung : ""}</h5>
-                    <input type="radio" data-id="${list[i].STT}" onchange="handleAns(${list[i].STT}, event.target.value)" ${listAnswer[list[i].STT] === 'A' ? 'checked' : ''}  name="answer${list[i].STT}" value="A">
-                    <label for="answer${list[i].STT}1">${list[i].DapAn1}</label><br>
-                    <input type="radio" data-id="${list[i].STT}" onchange="handleAns(${list[i].STT}, event.target.value)" ${listAnswer[list[i].STT] === 'B' ? 'checked' : ''} name="answer${list[i].STT}" value="B">
-                    <label for="answer${list[i].STT}2">${list[i].DapAn2}</label><br>
-                    <input type="radio" data-id="${list[i].STT}" onchange="handleAns(${list[i].STT}, event.target.value)" ${listAnswer[list[i].STT] === 'C' ? 'checked' : ''}  name="answer${list[i].STT}" value="C">
-                    <label for="answer${list[i].STT}3">${list[i].DapAn3}</label><br>
-                    <input type="radio" data-id="${list[i].STT}" onchange="handleAns(${list[i].STT}, event.target.value)" ${listAnswer[list[i].STT] === 'D' ? 'checked' : ''} name="answer${list[i].STT}" value="D">
-                    <label for="answer${list[i].STT}4">${list[i].DapAn4}</label><br>
-                    </div>`;
+                                            <h5 style="font-weight: 600; margin-bottom: 3vh">Question ${list[i].STT}: ${list[i].NoiDung ? list[i].NoiDung : ""}</h5>
+                                            <input type="radio" data-id="${list[i].STT}" onchange="handleAns(${list[i].STT}, event.target.value)" ${listAnswer[list[i].STT] === 'A' ? 'checked' : ''}  name="answer${list[i].STT}" value="A">
+                                            <label for="answer${list[i].STT}1">${list[i].DapAn1}</label><br>
+                                            <input type="radio" data-id="${list[i].STT}" onchange="handleAns(${list[i].STT}, event.target.value)" ${listAnswer[list[i].STT] === 'B' ? 'checked' : ''} name="answer${list[i].STT}" value="B">
+                                            <label for="answer${list[i].STT}2">${list[i].DapAn2}</label><br>
+                                            <input type="radio" data-id="${list[i].STT}" onchange="handleAns(${list[i].STT}, event.target.value)" ${listAnswer[list[i].STT] === 'C' ? 'checked' : ''}  name="answer${list[i].STT}" value="C">
+                                            <label for="answer${list[i].STT}3">${list[i].DapAn3}</label><br>
+                                            <input type="radio" data-id="${list[i].STT}" onchange="handleAns(${list[i].STT}, event.target.value)" ${listAnswer[list[i].STT] === 'D' ? 'checked' : ''} name="answer${list[i].STT}" value="D">
+                                            <label for="answer${list[i].STT}4">${list[i].DapAn4}</label><br>
+                                            </div>`;
                 }
                 if (!previous.get(index + total)) previous.set(index + total, total)
                 answer.innerHTML += `<div><button style='width: 5vw' class="btn btn-primary" ${index !== 0 ? '' : 'disabled'} id='pre-btn' data-index='${index - previous.get(index)}'>Prev</button>
-                <button style='width: 5vw' class="btn btn-primary" id='next-btn' class="btn btn-primary" ${index + total !== list.length ? '' : 'disabled'}  data-index='${index + total}'>Next</button> </div>`;
+                                        <button style='width: 5vw' class="btn btn-primary" id='next-btn' class="btn btn-primary" ${index + total !== list.length ? '' : 'disabled'}  data-index='${index + total}'>Next</button> </div>`;
                 const next = document.getElementById('next-btn');
                 next.addEventListener('click', async function (e) {
                     e.preventDefault();
@@ -460,8 +441,12 @@
             }
             if (distance <= 0) {
                 countdownSpan.textContent = 'Hết thời gian';
-                console.log('Hết thời gian.');
-                audio.pause();
+                if (typeof audio !== 'object' || audio === null) {
+                    console.log('Audio đã biến mất.');
+                } else {
+                    console.log('Audio vẫn tồn tại.');
+                    audio.pause();
+                }
                 const url = window.location.href;
                 const parts = url.split('/');
                 const number = parts[parts.length - 1];
@@ -469,35 +454,18 @@
                     id: number,
                     listAnswer: listAnswer
                 };
-                const json = fetch('/Exam/CheckAnswer', {
+                fetch('/Exam/CheckAnswer', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify(dataSend)
-                });
-
-                const result = json.json();
-                console.log(result);
-                if (result.success) {
-                    const url = window.location.href;
-                    const parts = url.split('/');
-                    const number = parts[parts.length - 1];
-                    const dataSend = {
+                    body: JSON.stringify({
                         id: number,
                         listAnswer: listAnswer
-                    };
-                    const json = fetch('/Exam/CheckAnswer', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify(dataSend)
-                    });
-
-                    const result = json.json();
-                    console.log(result);
-                    if (result.success) {
+                    })
+                })
+                    .then(res => res.json())
+                    .then(result => {
                         // Hiển thị màn hình chờ đợi
                         showLoadingScreen();
 
@@ -520,8 +488,7 @@
                             // Hiển thị modal
                             $('#resultModal').modal('toggle');
                         }, 3000); // 3000 milliseconds (3 giây)
-                    }
-                }
+                    });
                 check = true;
             } else {
                 const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)).toString().padStart(2, '0');
@@ -546,7 +513,12 @@
             console.log(listAnswer);
         }
         submitButton.addEventListener('click', async () => {
-            audio.pause();
+            if (typeof audio !== 'object' || audio === null) {
+                console.log('Audio đã biến mất.');
+            } else {
+                console.log('Audio vẫn tồn tại.');
+                audio.pause();
+            }
             submit = true;
             const url = window.location.href;
             const parts = url.split('/');

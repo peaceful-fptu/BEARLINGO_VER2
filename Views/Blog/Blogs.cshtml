@@ -91,21 +91,21 @@
                             @if (ViewBag.currentPage > 1)
                             {
                                 <li>
-                                    <a href="/Blog/getBlogs?num=@(ViewBag.currentPage - 1)">Prev</a>
+                                    <a href="/Blog/GetBlogs?num=@(ViewBag.currentPage - 1)">Prev</a>
                                 </li>
                             }
 
                             @for (int i = 1; i <= ViewBag.totalPages; i++)
                             {
                                 <li class="@(i == ViewBag.currentPage ? "active" : "")">
-                                    <a href="/Blog/getBlogs?num=@i">@i</a>
+                                    <a href="/Blog/GetBlogs?num=@i">@i</a>
                                 </li>
                             }
 
                             @if (ViewBag.currentPage < ViewBag.totalPages)
                             {
                                 <li>
-                                    <a href="/Blog/getBlogs?num=@(ViewBag.currentPage + 1)">Next</a>
+                                    <a href="/Blog/GetBlogs?num=@(ViewBag.currentPage + 1)">Next</a>
                                 </li>
                             }
                         </ul>

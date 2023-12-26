@@ -17,13 +17,11 @@ namespace BEARLINGO.Controllers.Admin
             _context = context;
         }
 
-        public IActionResult getBlogs(string num)
+        public IActionResult GetBlogs(string num)
         {
-            int totalPages = 0;
             int pageSize = 4;
-
             List<Blog> allBlogs = _context.Blogs.ToList();
-            totalPages = (allBlogs.Count() % pageSize) > 0 ? (allBlogs.Count() / pageSize) + 1 : (allBlogs.Count() / pageSize);
+            int totalPages = (allBlogs.Count() % pageSize) > 0 ? (allBlogs.Count() / pageSize) + 1 : (allBlogs.Count() / pageSize);
             int currentPage = string.IsNullOrEmpty(num) ? 1 : Convert.ToInt32(num);
             List<Blog> blogsForCurrentPage = allBlogs.Skip(pageSize * (currentPage - 1)).Take(pageSize).ToList();
             ViewBag.blogs = blogsForCurrentPage;
@@ -34,45 +32,45 @@ namespace BEARLINGO.Controllers.Admin
 
         public IActionResult BlogDetail(int id)
         {
-            Blog? blog = _context.Blogs.FirstOrDefault(n => n.Idblog == id);
+            var blog = _context.Blogs.FirstOrDefault(n => n.Idblog == id);
             ViewBag.Blog = blog;
             return View("~/Views/Blog/BlogDetail.cshtml");
         }
         public IActionResult BlogManage()
         {
-                var blogs = _context.Blogs.ToList();
-                ViewBag.blogs = blogs;
+            var blogs = _context.Blogs.ToList();
+            ViewBag.blogs = blogs;
             return View();
         }
 
-        public IActionResult addBlog()
+        public IActionResult AddBlog()
         {
             return View();
         }
 
         [HttpPost]
-        public IActionResult addBlog(string title, string mota, IFormFile ImageUpload)
+        public IActionResult AddBlog(string title, string mota, IFormFile ImageUpload)
         {
-                Blog blog = new Blog()
-                {
-                    Anh = helper.UploadPhoto(ImageUpload.OpenReadStream()),
-                    NoiDungBlog = mota,
-                    TieuDe = title,
-                    Idqtv = 1
-                };
-                _context.Blogs.Add(blog);
-                _context.SaveChanges();
-                return RedirectToAction("getBlogs", "Dashboard");
+            var blog = new Blog()
+            {
+                Anh = helper.UploadPhoto(ImageUpload.OpenReadStream()),
+                NoiDungBlog = mota,
+                TieuDe = title,
+                Idqtv = 1
+            };
+            _context.Blogs.Add(blog);
+            _context.SaveChanges();
+            return RedirectToAction("GetBlogs", "Dashboard");
         }
-        public IActionResult deleteBlog(int id)
+        public IActionResult DeleteBlog(int id)
         {
-                Blog? blog = _context.Blogs.FirstOrDefault(bl => bl.Idblog == id);
-                if (blog != null)
-                {
-                    _context.Blogs.Remove(blog);
-                    _context.SaveChanges();
-                }
-            return RedirectToAction("getBlogs", "Dashboard");
+            Blog? blog = _context.Blogs.FirstOrDefault(bl => bl.Idblog == id);
+            if (blog != null)
+            {
+                _context.Blogs.Remove(blog);
+                _context.SaveChanges();
+            }
+            return RedirectToAction("GetBlogs", "Dashboard");
         }
 
         [HttpPost]
@@ -85,9 +83,9 @@ namespace BEARLINGO.Controllers.Admin
             {
                 newBlog.Anh = helper.UploadPhoto(ImageUpload.OpenReadStream());
             }
-                _context.Blogs.Update(newBlog);
-                _context.SaveChanges();
-            return RedirectToAction("getBlogs", "Dashboard");
+            _context.Blogs.Update(newBlog);
+            _context.SaveChanges();
+            return RedirectToAction("GetBlogs", "Dashboard");
         }
     }
 }

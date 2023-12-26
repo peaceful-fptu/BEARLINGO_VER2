@@ -1,0 +1,46 @@
+﻿@{
+    Layout = "~/Views/Shared/_AdminBearlingoLayout.cshtml";
+}
+<div class="app-title">
+    <ul class="app-breadcrumb breadcrumb side">
+        <li class="breadcrumb-item active"><a href="#"><b>Danh sách User</b></a></li>
+    </ul>
+    <div id="clock"></div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="tile">
+            <div class="tile-body">
+                <table class="table table-hover table-bordered js-copytextarea" cellpadding="0" cellspacing="0" border="0"
+                       id="sampleTable">
+                    <thead>
+                        <tr>
+                            <th width="10"><input type="checkbox" id="all"></th>
+                            <th width="50">ID</th>
+                            <th width="200">Tên đăng nhập</th>
+                            <th width="200">Mật khẩu</th>
+                            <th width="100">Sđt</th>
+                            <th width="200">Gmail</th>
+                            <th width="200">Số lần làm bài</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @foreach (var item in ViewBag.User)
+                        {
+                            <tr>
+                                <td width="10"><input type="checkbox" name="check1" value="@item.IdnguoiDung"></td>
+                                <td>#@item.IdnguoiDung</td>
+                                <td>@item.TenDangNhap</td>
+                                <td>@item.MatKhau</td>
+                                <td>@item.Gmail</td>
+                                <td>@("0" + @item.Sdt)</td>
+                                <td>@item.ExamCount</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

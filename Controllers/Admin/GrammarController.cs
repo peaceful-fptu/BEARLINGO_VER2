@@ -24,10 +24,10 @@ namespace BEARLINGO.Controllers.Admin
             int totalPages = 0;
             int pageSize = 4;
 
-            List<ChuDeNguPhap> allGrammars = _context.ChuDeNguPhaps.ToList();
+            List<NguPhap> allGrammars = _context.NguPhaps.ToList();
             totalPages = (allGrammars.Count() % pageSize) > 0 ? (allGrammars.Count() / pageSize) + 1 : (allGrammars.Count() / pageSize);
             int currentPage = string.IsNullOrEmpty(num) ? 1 : Convert.ToInt32(num);
-            List<ChuDeNguPhap> grammarsForCurrentPage = allGrammars.Skip(pageSize * (currentPage - 1)).Take(pageSize).ToList();
+            List<NguPhap> grammarsForCurrentPage = allGrammars.Skip(pageSize * (currentPage - 1)).Take(pageSize).ToList();
             ViewBag.grammars = grammarsForCurrentPage;
             ViewBag.currentPage = currentPage;
             ViewBag.totalPages = totalPages;
@@ -35,14 +35,14 @@ namespace BEARLINGO.Controllers.Admin
         }
 
         [HttpGet]
-        public IActionResult GrammarDetail(int idNguPhap)
+        public IActionResult GrammarDetail(int id)
         {
-            NguPhap? nguPhap = _context.NguPhaps.Include(n => n.IdchuDeNguPhapNavigation).FirstOrDefault();
-            ViewData["NguPhap"] = nguPhap;
+            NguPhap? nguPhap = _context.NguPhaps.Include(n => n.IdchuDeNguPhapNavigation).FirstOrDefault(x => x.IdchuDeNguPhap == id);
+            ViewBag.nguphap = nguPhap;
             return View();
         }
 
-        public List<ChuDeNguPhap> GetChuDe()
+        public List<ChuDeNguPhap> Topic()
         {
             var result = from chude in _context.ChuDeNguPhaps
                          join qtv in _context.Qtvs
@@ -243,7 +243,7 @@ namespace BEARLINGO.Controllers.Admin
             return View();
         }
 
-        
+
         [HttpPost]
         public IActionResult UpdateNguPhap(int idNguPhap, string tieuDe, string cachDung, string cauTruc, string viDu, string boSung, string luuY, int idChuDe)
         {

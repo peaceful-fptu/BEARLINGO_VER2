@@ -1,4 +1,5 @@
-﻿using BEARLINGO.Models;
+﻿using BEARLINGO.DTO;
+using BEARLINGO.Models;
 using DocumentFormat.OpenXml.InkML;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -84,7 +85,7 @@ namespace BEARLINGO.Controllers.Admin
             ViewBag.navlink = "exam";
             return View("~/Views/AdminPage/Exam.cshtml");
         }
-        public IActionResult getBlogs()
+        public IActionResult GetBlogs()
         {
             List<Blog> list = _context.Blogs.ToList();
             ViewBag.blogs = list;
@@ -108,8 +109,29 @@ namespace BEARLINGO.Controllers.Admin
             ViewBag.navlink = "grammar";
             return View("~/Views/AdminPage/Grammar.cshtml");
         }
-
-        public IActionResult getTuVungs()
+        public IActionResult GetUsers()
+        {
+            var userDTOs = new List<UserDTO>();
+            var dataUser = _context.NguoiDungs.ToList();
+            foreach (var userDTO in dataUser)
+            {
+                int countExamByUser = _context.BaiLams.Where(x => x.IdnguoiDung == userDTO.IdnguoiDung).Count();
+                var user = new UserDTO()
+                {
+                    IdnguoiDung = userDTO.IdnguoiDung,
+                    TenDangNhap = userDTO.TenDangNhap,
+                    MatKhau = userDTO.MatKhau,
+                    Gmail = userDTO.Gmail,
+                    Sdt = userDTO.Sdt,
+                    ExamCount = countExamByUser,
+                };
+                userDTOs.Add(user);
+            }
+            ViewBag.User = userDTOs;
+            ViewBag.navlink = "user";
+            return View("~/Views/AdminPage/User.cshtml");
+        }
+        public IActionResult VocabularyLists()
         {
             List<TuVung> list = _context.TuVungs.Include(n => n.IdchuDeTuVungNavigation).ToList();
             ViewBag.listNP = list;

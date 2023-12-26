@@ -9,14 +9,14 @@ namespace BEARLINGO.Controllers.Authentication
     public class GoogleLoginController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly IConfiguration configuration;
-        private readonly BearlingoContext context;
+        private readonly IConfiguration _configuration;
+        private readonly BearlingoContext _context;
 
         public GoogleLoginController(ILogger<HomeController> logger, IConfiguration configuration, BearlingoContext context)
         {
             _logger = logger;
-            this.configuration = configuration;
-            this.context = context;
+            _configuration = configuration;
+            _context = context;
         }
 
         public IActionResult OnPost()
@@ -35,7 +35,7 @@ namespace BEARLINGO.Controllers.Authentication
             {
                 var emailLogin = result?.Principal?.FindFirst(ClaimTypes.Email)?.Value;
                 var name = result?.Principal?.FindFirst(ClaimTypes.Name)?.Value;
-                var user = context.NguoiDungs.FirstOrDefault(x => x.Gmail == emailLogin);
+                var user = _context.NguoiDungs.FirstOrDefault(x => x.Gmail == emailLogin);
                 if (user == null)
                 {
                     ViewBag.report = "Bạn cần đăng kí tài khoản trước khi sử dụng dịch vụ";

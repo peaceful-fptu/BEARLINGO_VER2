@@ -36,12 +36,12 @@ namespace BEARLINGO.Controllers.Admin
         [HttpGet]
         public IActionResult VocabularyDetail(int id)
         {
-            var listTuVung = GetTuVung(id);
+            var listTuVung = VocabularyList(id);
             ViewData["listTuVung"] = listTuVung;
             return View();
         }
 
-        public List<ChuDeTuVung> GetChuDe()
+        public List<ChuDeTuVung> Topic()
         {
             var result = from chude in _context.ChuDeTuVungs
                          join qtv in _context.Qtvs
@@ -62,7 +62,7 @@ namespace BEARLINGO.Controllers.Admin
             return new List<ChuDeTuVung>();
         }
 
-        public List<TuVung> GetTuVung(int idChuDe)
+        public List<TuVung> VocabularyList(int idChuDe)
         {
             var result = from tuvung in _context.TuVungs
                          join chude in _context.ChuDeTuVungs
@@ -148,7 +148,7 @@ namespace BEARLINGO.Controllers.Admin
             {
                 Console.WriteLine(ex.Message);
             }
-            return RedirectToAction("getTuVungs", "Dashboard");
+            return RedirectToAction("VocabularyLists", "Dashboard");
         }
 
         [HttpGet]
@@ -200,7 +200,7 @@ namespace BEARLINGO.Controllers.Admin
                     _context.SaveChanges();
                 }
 
-                return RedirectToAction("getTuVungs", "Dashboard");
+                return RedirectToAction("VocabularyLists", "Dashboard");
             }
             catch (Exception ex)
             {
@@ -251,7 +251,7 @@ namespace BEARLINGO.Controllers.Admin
                 }
                 _context.SaveChanges();
 
-                return RedirectToAction("getTuVungs", "Dashboard");
+                return RedirectToAction("VocabularyLists", "Dashboard");
             }
             catch (Exception ex)
             {

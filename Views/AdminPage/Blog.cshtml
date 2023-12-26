@@ -15,7 +15,7 @@
 
                 <div class="row element-button">
                     <div class="col-sm-2">
-                        <a class="btn btn-add btn-sm" asp-action="addBlog" asp-controller="Blog" title="Thêm">
+                        <a class="btn btn-add btn-sm" asp-action="AddBlog" asp-controller="Blog" title="Thêm">
                             <i class="fas fa-plus"></i>
                             Tạo mới Blog
                         </a>
@@ -26,10 +26,10 @@
                     <thead>
                         <tr>
                             <th width="10"><input type="checkbox" id="all"></th>
-                            <th>ID </th>
-                            <th width="150">Tiêu đề</th>
-                            <th width="20">Ảnh </th>
-                            <th width="100">Tính năng</th>
+                            <th width="20">ID </th>
+                            <th width="700">Tiêu đề</th>
+                            <th width="100">Ảnh </th>
+                            <th width="200">Tính năng</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -43,7 +43,7 @@
                                 <td><img class="img-card-person" src="@item.Anh" alt=""></td>
                                 <td class="table-td-center">
                                     <button class="btn btn-primary btn-sm trash" type="button" title="Xóa"
-                                            onclick="deleteBlog(@item.Idblog)">
+                                            onclick="DeleteBlog(@item.Idblog)">
                                         <i class="fas fa-trash-alt"></i>
                                     </button>
                                     <button class="btn btn-primary btn-sm edit" type="button" title="Sửa" id="show-emp"
@@ -112,7 +112,7 @@
         </div>
     </div>
     <script>
-        function deleteBlog(i) {
+        function DeleteBlog(i) {
             swal({
                 title: "Cảnh báo",
 
@@ -125,7 +125,7 @@
                         swal("Đã xóa thành công.!", {
 
                         });
-                        window.location.href = "@(Context.Request.PathBase)/Blog/deleteBlog?id=" + i;
+                        window.location.href = "@(Context.Request.PathBase)/Blog/DeleteBlog?id=" + i;
                     }
                 });
         }

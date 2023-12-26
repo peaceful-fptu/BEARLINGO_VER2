@@ -99,12 +99,12 @@
                 </a>
             </li>
             <li>
-                <a class="app-menu__item @(ViewBag.navlink == "blog" ? "active" : "")" asp-action="getBlogs" asp-controller="Dashboard">
+                <a class="app-menu__item @(ViewBag.navlink == "blog" ? "active" : "")" asp-action="GetBlogs" asp-controller="Dashboard">
                     <i class='app-menu__icon bx bx-user-voice'></i><span class="app-menu__label">Quản lý Blog</span>
                 </a>
             </li>
             <li>
-                <a class="app-menu__item @(ViewBag.navlink == "vocabulary" ? "active" : "")" asp-action="getTuVungs" asp-controller="Dashboard">
+                <a class="app-menu__item @(ViewBag.navlink == "vocabulary" ? "active" : "")" asp-action="VocabularyLists" asp-controller="Dashboard">
                     <i class='app-menu__icon bx bx-purchase-tag-alt'></i><span class="app-menu__label">Quản lý Từ vựng</span>
                 </a>
             </li>
@@ -119,22 +119,14 @@
                 </a>
             </li>
             <li>
-                <a class="app-menu__item @(ViewBag.navlink == "question" ? "active" : "")" >
-                    <i class='app-menu__icon bx bx-run'></i><span class="app-menu__label">
-                        Quản lý Bài Thi
-                    </span>
-                </a>
-            </li>
-            <li>
-                <a class="app-menu__item @(ViewBag.navlink == "user" ? "active" : "")" href="table-data-money.html">
-                    <i class='app-menu__icon bx bx-dollar'></i><span class="app-menu__label">Quản lý người dùng</span>
+                <a class="app-menu__item @(ViewBag.navlink == "user" ? "active" : "")" asp-action="GetUsers" asp-controller="Dashboard">
+                    <i class='app-menu__icon bx bx-task'></i><span class="app-menu__label">Quản lý User</span>
                 </a>
             </li>
             <li>
                 <a class="app-menu__item @(ViewBag.navlink == "setting" ? "active" : "")" href="#">
                     <i class='app-menu__icon bx bx-cog'></i><span class="app-menu__label">
-                        Cài
-                        đặt hệ thống
+                        Cài đặt hệ thống
                     </span>
                 </a>
             </li>

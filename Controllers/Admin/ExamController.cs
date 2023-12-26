@@ -274,6 +274,40 @@ namespace BEARLINGO.Controllers.Admin
             ViewBag.exams = list;
             return View("~/Views/AdminPage/Exam.cshtml");
         }
+        public IActionResult DeleteExam(int id)
+        {
+            using (var transaction = _context.Database.BeginTransaction())
+            {
+                try
+                {
+                    // Xóa các records liên quan từ các bảng
+                    _context.Audios.RemoveRange(_context.Audios.Where(a => a.IddeThi == id));
+                    _context.BaiLams.RemoveRange(_context.BaiLams.Where(b => b.IddeThi == id));
+                    _context.Listenings.RemoveRange(_context.Listenings.Where(l => l.IddeThi == id));
+                    _context.Pictures.RemoveRange(_context.Pictures.Where(p => p.IddeThi == id));
+                    _context.Readings.RemoveRange(_context.Readings.Where(r => r.IddeThi == id));
+
+                    // Lưu thay đổi vào cơ sở dữ liệu
+                    _context.SaveChanges();
+
+                    // Xóa record từ bảng DeThi
+                    _context.DeThis.Remove(_context.DeThis.Find(id)!);
+
+                    // Lưu thay đổi vào cơ sở dữ liệu
+                    _context.SaveChanges();
+
+                    // Commit transaction
+                    transaction.Commit();
+                    return RedirectToAction("getExams", "Dashboard");
+                }
+                catch (Exception)
+                {
+                    // Nếu có lỗi, rollback transaction
+                    transaction.Rollback();
+                    throw;
+                }
+            }
+        }
 
         public IActionResult EditExam()
         {
@@ -385,7 +419,7 @@ namespace BEARLINGO.Controllers.Admin
             _context.SaveChanges();
             if (images.Count == 0 || audio.Count == 0)
             {
-                return Json(new { success = false, message = "Vui lòng chọn file" });
+                return View("~/Views/AdminPage/EditExam.cshtml");
             }
             else
             {
@@ -488,7 +522,7 @@ namespace BEARLINGO.Controllers.Admin
                             // Đọc sheet 2
                             IXLWorksheet worksheet2 = workbook.Worksheet(2);
                             bool isFirstRowSheet2 = true;
-                            foreach (var row in worksheet1.RowsUsed())
+                            foreach (var row in worksheet2.RowsUsed())
                             {
                                 // Bỏ qua dòng đầu tiên (tiêu đề)
                                 if (isFirstRowSheet2)
@@ -498,7 +532,7 @@ namespace BEARLINGO.Controllers.Admin
                                 }
                                 var idPicture1 = 7;
                                 var typeR = row.Cell(9)!.Value.ToString();
-                                var pictureExcel = row.Cell(11)!.Value.ToString();
+                                var pictureExcel = row.Cell(10)!.Value.ToString();
                                 var typeReading = _context.PhanLoaiRs.FirstOrDefault(x => x.Loai == typeR)!.IdphanLoaiR;
                                 var idPicture = _context.Pictures.Where(x => x.TenFile == pictureExcel);
                                 if (idPicture.Count() > 0)
@@ -526,7 +560,7 @@ namespace BEARLINGO.Controllers.Admin
                     }
                 }
             }
-            return Json(new { success = true, message = "Thêm đề thi thành công" });
+            return View("~/Views/AdminPage/Exam.cshtml");
         }
     }
 }
